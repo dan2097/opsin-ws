@@ -1,0 +1,37 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package uk.ac.cam.ch.opsin.ws;
+
+import org.restlet.Application;
+import org.restlet.Restlet;
+import org.restlet.routing.Router;
+
+import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
+
+/**
+ *
+ * @author ojd20
+ */
+public class OPSINWebApp extends Application {
+
+   @Override
+   public Restlet createRoot() {
+      Router router = new Router(getContext());
+      router.attachDefault(OPSINResource.class); 
+      
+      // Filter to override content negotiation by file extension
+      // MUST be applied before template, otherwise file extension ends up in name!
+      ContentFilter filter = new ContentFilter();
+      filter.setNext(router);
+      
+      try {
+		NameToStructure.getInstance();//initialise OPSIN early
+	  } catch (Exception e) {
+		e.printStackTrace();
+		throw new RuntimeException("OPSIN failed to intialise");
+	  }
+      return filter;
+   }
+}
