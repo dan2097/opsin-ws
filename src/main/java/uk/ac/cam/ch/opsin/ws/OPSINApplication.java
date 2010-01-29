@@ -16,6 +16,9 @@ import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
  * @author ojd20
  */
 public class OPSINApplication extends Application {
+//	public OPSINApplication() {
+//	    this.setStatusService(new OpsinStatusService());
+//	}
 
    @Override
    public Restlet createRoot() {
@@ -30,7 +33,7 @@ public class OPSINApplication extends Application {
       // MUST be applied before template, otherwise file extension ends up in name!
       ContentFilter filter = new ContentFilter();
       filter.setNext(router);
-      
+
       // Nasty hack so Daniel can run this without a proper servlet container
       IndexFilter indexFilter = new IndexFilter();
       indexFilter.setNext(filter);
