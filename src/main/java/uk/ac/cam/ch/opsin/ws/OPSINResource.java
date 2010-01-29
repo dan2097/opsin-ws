@@ -27,7 +27,6 @@ import org.restlet.resource.ServerResource;
 import sea36.chem.base.io.CMLBuilder;
 import sea36.chem.core.CMLMolecule;
 import sea36.chem.graphics.layout.Layout2D;
-import sea36.chem.tools.HydrogenCalculator;
 import sea36.util.restlet.ByteArrayRepresentation;
 import sea36.xml.Document;
 import sea36.xml.Serializer;
@@ -41,6 +40,8 @@ import uk.ac.cam.ch.wwmm.opsin.XOMFormatter;
 /**
  * 
  * @author ojd20
+ * @author dl387
+ * @author sea36
  */
 public class OPSINResource extends ServerResource {
 
@@ -49,6 +50,22 @@ public class OPSINResource extends ServerResource {
 	public final static MediaType TYPE_SMILES = MediaType.register("chemical/x-daylight-smiles", "SMILES");
 
 	private String name;
+	private static NameToStructure n2s;
+	private static NameToInchi n2i;
+	private static NameToSmiles n2smi;
+	private static NameToDepiction n2depict;
+	
+	static{
+		try {
+			n2s = NameToStructure.getInstance();
+			n2i = new NameToInchi();
+			n2smi = new NameToSmiles();
+			n2depict = new NameToDepiction();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("OPSIN failed to intialise!");
+		}
+	}
 	
 	@Override
 	public void doInit() {
@@ -99,8 +116,6 @@ public class OPSINResource extends ServerResource {
 	}
 
 	private Representation getCmlRepresentation() throws Exception {
-		
-		NameToStructure n2s = NameToStructure.getInstance();
 		OpsinResult opsinResult = n2s.parseChemicalName(name, false);
 		if (opsinResult.getCml() == null) {
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
@@ -124,9 +139,7 @@ public class OPSINResource extends ServerResource {
 	}
 	
 	private Representation getInchiRepresentation() throws Exception {
-		NameToInchi n2i = new NameToInchi();
-		String inchi = n2i
-				.parseToInchi(name, false);
+		String inchi = n2i.parseToInchi(name, false);
 		if (inchi == null) {
 			throw new ResourceException(
 					Status.CLIENT_ERROR_NOT_FOUND);
@@ -136,7 +149,6 @@ public class OPSINResource extends ServerResource {
 	}
 
 	private Representation getSmilesRepresentation() throws Exception {
-		NameToSmiles n2smi = new NameToSmiles();
 		String smiles = n2smi.parseToSmiles(name, false);
 		if (smiles == null) {
 			throw new ResourceException(
@@ -147,7 +159,6 @@ public class OPSINResource extends ServerResource {
 	}
 
 	private Representation getPngRepresentation() throws Exception {
-		NameToDepiction n2depict = new NameToDepiction();
 		RenderedImage image = n2depict.parseToDepiction(name, false);
 		if (image == null) {
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);

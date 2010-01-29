@@ -13,8 +13,14 @@ import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
 /**
  *
  * @author ojd20
+ * @author dl387
+ * @author sea36
  */
 public class OPSINWebApp extends Application {
+
+//	public OPSINWebApp() {
+//	    this.setStatusService(new OpsinStatusService());
+//	}
 
    @Override
    public Restlet createRoot() {
