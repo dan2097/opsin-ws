@@ -13,8 +13,13 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import nu.xom.Attribute;
 import nu.xom.Element;
+import nu.xom.Elements;
 
+import org.openscience.cdk.interfaces.IAtom;
+import org.openscience.cdk.interfaces.IMolecule;
+import org.openscience.cdk.layout.StructureDiagramGenerator;
 import org.restlet.data.MediaType;
 import org.restlet.data.Method;
 import org.restlet.data.Status;
@@ -24,15 +29,8 @@ import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
-import sea36.chem.base.io.CMLBuilder;
-import sea36.chem.core.CMLMolecule;
-import sea36.chem.graphics.layout.Layout2D;
 import sea36.util.restlet.ByteArrayRepresentation;
-import sea36.xml.Document;
-import sea36.xml.Serializer;
-import uk.ac.cam.ch.wwmm.opsin.NameToDepiction;
 import uk.ac.cam.ch.wwmm.opsin.NameToInchi;
-import uk.ac.cam.ch.wwmm.opsin.NameToSmiles;
 import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
 import uk.ac.cam.ch.wwmm.opsin.XOMFormatter;
@@ -52,15 +50,11 @@ public class OPSINResource extends ServerResource {
 	private String name;
 	private static NameToStructure n2s;
 	private static NameToInchi n2i;
-	private static NameToSmiles n2smi;
-	private static NameToDepiction n2depict;
 	
 	static{
 		try {
 			n2s = NameToStructure.getInstance();
 			n2i = new NameToInchi();
-			n2smi = new NameToSmiles();
-			n2depict = new NameToDepiction();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("OPSIN failed to intialise!");
@@ -122,18 +116,37 @@ public class OPSINResource extends ServerResource {
 		} else {
 			Element cml =opsinResult.getCml();
 			try{
-				CMLBuilder builder = new CMLBuilder();
-				Document doc = builder.parse(cml.toXML());
-				CMLMolecule mol = (CMLMolecule) doc.getRootElement().getChild(0);
-				Layout2D layout = new Layout2D();
-				layout.generateCoordinates(mol);
-				ByteArrayOutputStream formattedCML = new ByteArrayOutputStream();
-				Serializer serialiser = new Serializer(formattedCML);
-				serialiser.writeDocument(doc);
-				return new StringRepresentation(formattedCML.toString(), TYPE_CML);
+				IMolecule mol = CMLToCDK.cmlToMolecule(cml);
+				StructureDiagramGenerator sdg = new StructureDiagramGenerator();
+				sdg.setMolecule(mol);
+				sdg.generateCoordinates();
+				mol = sdg.getMolecule();
+				Elements molecules = cml.getChildElements("molecule", "http://www.xml-cml.org/schema");
+				if (molecules.size()!=1){
+					throw new Exception("1 molecule element expected");
+				}
+				Elements atomArrays = molecules.get(0).getChildElements("atomArray", "http://www.xml-cml.org/schema");
+				if (atomArrays.size()!=1){
+					throw new Exception("1 atomArray element expected");
+				}
+				Elements atoms = atomArrays.get(0).getChildElements("atom", "http://www.xml-cml.org/schema");
+				if (atoms.size() < 1){
+					throw new Exception("At least 1 atom element expected");
+				}
+				int atomCount = mol.getAtomCount();
+				for (int i = 0; i < atomCount; i++) {
+					IAtom cdkAtom = mol.getAtom(i);
+					Element opsinAtom = atoms.get(i);
+					if (!cdkAtom.getID().equals(opsinAtom.getAttributeValue("id"))){
+						throw new Exception("Assumption that OPSIN and CDK atoms map to each other has been violated!");
+					}
+					opsinAtom.addAttribute(new Attribute("x2", String.valueOf(cdkAtom.getPoint2d().x)));
+					opsinAtom.addAttribute(new Attribute("y2",  String.valueOf(cdkAtom.getPoint2d().y)));
+				}
+				return new StringRepresentation(new XOMFormatter().elemToString(cml), TYPE_CML);
 			}
 			catch (Exception e) {
-				return new StringRepresentation(new XOMFormatter().elemToString(opsinResult.getCml()), TYPE_CML);
+				return new StringRepresentation(new XOMFormatter().elemToString(cml), TYPE_CML);
 			}
 		}
 	}
@@ -149,25 +162,37 @@ public class OPSINResource extends ServerResource {
 	}
 
 	private Representation getSmilesRepresentation() throws Exception {
-		String smiles = n2smi.parseToSmiles(name, false);
-		if (smiles == null) {
+		OpsinResult result = n2s.parseChemicalName(name, false);
+		if (result == null) {
 			throw new ResourceException(
 					Status.CLIENT_ERROR_NOT_FOUND);
 		} else {
-			return new StringRepresentation(smiles, TYPE_SMILES);
+			String smiles =OpsinResultToSmiles.convertResultToSMILES(result, false);
+			if (smiles == null) {
+				throw new ResourceException(
+						Status.CLIENT_ERROR_NOT_FOUND);
+			} else {
+				return new StringRepresentation(smiles, TYPE_SMILES);
+			}
 		}
 	}
 
 	private Representation getPngRepresentation() throws Exception {
-		RenderedImage image = n2depict.parseToDepiction(name, false);
-		if (image == null) {
-			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+		OpsinResult result = n2s.parseChemicalName(name, false);
+		if (result == null) {
+			throw new ResourceException(
+					Status.CLIENT_ERROR_NOT_FOUND);
 		} else {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(image, "png", baos);
-			baos.close();
-			ByteArrayRepresentation rep = new ByteArrayRepresentation(baos.toByteArray(), MediaType.IMAGE_PNG);
-			return rep;
+			RenderedImage image = OpsinResultToDepiction.convertResultToDepction(result, false);
+			if (image == null) {
+				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+			} else {
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				ImageIO.write(image, "png", baos);
+				baos.close();
+				ByteArrayRepresentation rep = new ByteArrayRepresentation(baos.toByteArray(), MediaType.IMAGE_PNG);
+				return rep;
+			}
 		}
 	}
 	
