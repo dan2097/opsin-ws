@@ -9,8 +9,8 @@ public class RestletTest {
 		     // Create a new Component.
 		    Component component = new Component();
 		
-		     // Add a new HTTP server listening on port 8182.
-		     component.getServers().add(Protocol.HTTP, 8182);
+		     // Add a new HTTP server listening on port 8180.
+		     component.getServers().add(Protocol.HTTP, 8180);
 		     component.getClients().add(Protocol.CLAP);
 		     
 		     // Attach the sample application.

@@ -65,13 +65,14 @@
 <div>
   <form action="" name="chemicalNameForm" id="chemicalNameForm">
     <p>Enter a chemical name into the box then click submit. If the name can be interpreted a depiction, SMILES and CML will be returned.<br><input type="text" id="chemicalName" size="100" value="2,4,6-trinitrotoluene">
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit"><br>
+Updated 9/4/10. Now powered by the CDK/JChemPaint9<br> Note that this web interface is primarily for demonstration purposes.  Responsiveness and other issues will be addressed in the future.
     </p>
   </form>
   <div id="results" style="display:none">
-    <p><img id="depiction" src="" alt="No depiction available"></p>
+    <p><img id="depiction" src="" alt=""></p>
     SMILES: <p id="smiles"></p>
-    InChI: <p id="inchi"></p>
+    InChI (Not yet working): <p id="inchi"></p>
     CML: <pre id="cml"></pre>
   </div>
 
