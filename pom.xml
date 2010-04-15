@@ -214,14 +214,21 @@
          <scope>test</scope>
       </dependency>
       <dependency>
-         <groupId>org.openscience</groupId>
+         <groupId>cdk</groupId>
          <artifactId>cdk</artifactId>
-         <version>1.3.4</version>
+         <version>20071025</version>
       </dependency>
       <dependency>
-         <groupId>org.openscience</groupId>
-         <artifactId>jchempaint</artifactId>
-         <version>9</version>
+      <!-- required by CDK -->
+        <groupId>java3d</groupId>
+        <artifactId>vecmath</artifactId>
+        <version>1.3.1</version>
+      </dependency>
+      <dependency>
+        <!-- required by CDK -->
+        <groupId>jgrapht</groupId>
+        <artifactId>jgrapht</artifactId>
+        <version>0.6.0</version>
       </dependency>
    </dependencies>
    <reporting>
