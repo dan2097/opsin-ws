@@ -1,0 +1,118 @@
+/* for use with rss feed - add this block into content.css or call it as an import from layout.css if you want to use an rss feed insert on your pages
+-------------------------------------------------------------- */
+
+dl.news_box {
+        clear: both;
+        width: 100%;
+        padding-bottom: 0.5em;
+}
+
+dl.news_box dt {
+        padding-top: 0.5em;
+        padding-bottom: 0;
+        padding-left: 21px;
+        margin-left: 2px;
+        margin-bottom: 0.5em;
+        color:#036;
+        font-size: 1.2em;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+}
+
+dl.news_box dd  {
+        padding-left: 21px;
+        font-size: 0.95em;
+        margin: 0;
+}
+
+dl.news_box img {
+        background: white;
+        padding: 5px;
+        margin: 5px 0 5px 5px;
+        display: inline;
+}
+
+dl.news_box dt img {
+        float: left;
+        border: none;
+        padding: 0 10px 0 0;
+        background: none;
+        position: relative;
+        top: 1px;
+        margin: 0;
+}
+
+dl.news_box dd img {
+        float: right;
+        width: 72px;
+        height: 72px;
+        background:#fff;
+        margin-right:5px;
+        border:solid 1px #ddd;
+}
+
+dl.news_box dt a {
+        text-decoration: none;
+        color:#036;
+}
+
+dl.news_box dt a:hover {
+        text-decoration: underline;
+        color:#036;
+}
+
+dl.news_box dd div.news_item {
+        float: left;
+        background:#f9f9f9;
+        border-bottom:1px #eee solid;
+        margin-bottom:5px;
+        width:100%;
+}
+
+dl.news_box dd div.news_item a:hover {color:#c60;}
+
+dl.news_box dd div.news_item a:visited {color:#900;}
+
+dl.news_box dd p {
+        font-size: 1em;
+        padding-top: 0.2em;
+        padding-left: 5px;
+        margin-bottom: 0.4em;
+}
+
+dl.news_box dd p.news_item_date {
+        font-size:.8em;
+        font-style:normal;
+        color:#c60;
+        display:block;
+        border-top:1px #ddd solid;
+        border-bottom:0px #eee solid;
+        margin:0;
+        margin-bottom:-5px;
+        padding:0 0 0 5px;
+}
+
+dl.news_box dd a {
+        font-weight:bold;
+        text-decoration: none;
+}
+
+dl.news_box dd a:hover {text-decoration: underline;}
+
+dl.news_box dd p.news_item_more {
+        margin:0 0 5px 0;
+        padding:0;
+        text-align:right;
+}
+
+dl.news_box dd p.news_item_more a {
+        padding-right:23px;
+        background:url(/images/icon-arrow-nav-primary.gif) no-repeat 90% 60%;
+}
+
+dl.news_box dd a.news_item_right_link {
+    	padding-right:15px;
+    	background:url(/images/icon-arrow-nav-primary.gif) no-repeat 100% 60%;
+}
+
+dl.news_box div.news_seealso {text-align: right;}
