@@ -103,20 +103,10 @@
    </build>
    <repositories>
       <repository>
-         <id>maven-restlet</id>
-         <name>Public online Restlet repository</name>
-         <url>http://maven.restlet.org</url>
+         <id>ucc-repo</id>
+         <url>https://maven.ch.cam.ac.uk/m2repo
+         </url>
       </repository>
-	  <repository>
-	    <id>ucc</id>
-	    <url>https://maven.ch.cam.ac.uk/m2repo</url>
-	  </repository>
-<!--		<repository>
-			<id>codehaus</id>
-			<url>http://repository.codehaus.org/
-			</url>
-		</repository>
--->
    </repositories>
    <properties>
       <restlet.version>2.0-SNAPSHOT</restlet.version>
@@ -248,12 +238,4 @@
          </plugin>
       </plugins>
    </reporting>
-   <distributionManagement>
-      <repository>
-         <id>wwmm-dav</id>
-         <name>WWMM</name>
-         <url>dav:http://wwmm.ch.cam.ac.uk/maven2
-         </url>
-      </repository>
-   </distributionManagement>
 </project>
