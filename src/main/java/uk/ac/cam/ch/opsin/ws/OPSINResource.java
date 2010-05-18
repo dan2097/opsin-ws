@@ -46,6 +46,8 @@ public class OPSINResource extends ServerResource {
 	public final static MediaType TYPE_CML = MediaType.register("chemical/x-cml", "Chemical Markup Language");
 	public final static MediaType TYPE_INCHI = MediaType.register("chemical/x-inchi", "InChI");
 	public final static MediaType TYPE_SMILES = MediaType.register("chemical/x-daylight-smiles", "SMILES");
+	
+	public final static MediaType TYPE_NO2DCML = MediaType.register("chemical/x-no2d-cml", "Chemical Markup Language");
 
 	private String name;
 	private static NameToStructure n2s;
@@ -68,6 +70,7 @@ public class OPSINResource extends ServerResource {
 		list.add(new Variant(TYPE_CML));
 		list.add(new Variant(TYPE_INCHI));
 		list.add(new Variant(TYPE_SMILES));
+		list.add(new Variant(TYPE_NO2DCML));
 		list.add(new Variant(MediaType.IMAGE_PNG));
 		getVariants().put(Method.GET, list);
 		
@@ -98,6 +101,9 @@ public class OPSINResource extends ServerResource {
 			}
 			else if (MediaType.IMAGE_PNG.equals(variant.getMediaType())) {
 				return getPngRepresentation();
+			}
+			else if (TYPE_NO2DCML.equals(variant.getMediaType())) {
+				return getNo2dCmlRepresentation();
 			}
 			else{
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_ACCEPTABLE);
@@ -148,6 +154,16 @@ public class OPSINResource extends ServerResource {
 			catch (Exception e) {
 				return new StringRepresentation(new XOMFormatter().elemToString(cml), TYPE_CML);
 			}
+		}
+	}
+	
+	private Representation getNo2dCmlRepresentation() throws Exception {
+		OpsinResult opsinResult = n2s.parseChemicalName(name, false);
+		if (opsinResult.getCml() == null) {
+			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
+		} else {
+			Element cml =opsinResult.getCml();
+			return new StringRepresentation(new XOMFormatter().elemToString(cml), TYPE_CML);
 		}
 	}
 	
