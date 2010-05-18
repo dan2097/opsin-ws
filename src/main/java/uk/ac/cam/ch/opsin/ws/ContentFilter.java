@@ -11,7 +11,12 @@ public class ContentFilter extends Filter {
 	@Override
 	protected int beforeHandle(Request request, Response response) {
 		String path = request.getResourceRef().getPath();
-		if (path.endsWith(".cml")) {
+		if (path.endsWith(".no2d.cml")) {
+			request.getClientInfo().getAcceptedMediaTypes().clear();
+			request.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(OPSINResource.TYPE_NO2DCML));
+			request.getResourceRef().setPath(path.substring(0, path.length()-9));
+		}
+		else if (path.endsWith(".cml")) {
 			request.getClientInfo().getAcceptedMediaTypes().clear();
 			request.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(OPSINResource.TYPE_CML));
 			request.getResourceRef().setPath(path.substring(0, path.length()-4));

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package uk.ac.cam.ch.opsin.ws;
 
 import org.restlet.Application;
@@ -17,10 +13,6 @@ import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
  * @author sea36
  */
 public class OPSINWebApp extends Application {
-
-//	public OPSINWebApp() {
-//	    this.setStatusService(new OpsinStatusService());
-//	}
 
    @Override
    public Restlet createRoot() {

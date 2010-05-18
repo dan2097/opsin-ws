@@ -1,0 +1,9 @@
+  img.ucc-logo {
+    padding:0.9em 1em 0 1em;
+  }
+  div#content-primary {
+    width: 83%;
+  }
+  div#content-secondary {
+    width: 15%;
+  }
