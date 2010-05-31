@@ -73,6 +73,7 @@ public class OPSINResource extends ServerResource {
 		list.add(new Variant(TYPE_NO2DCML));
 		list.add(new Variant(MediaType.IMAGE_PNG));
 		getVariants().put(Method.GET, list);
+		getVariants().put(Method.HEAD, list);
 		
 		String name = (String) getRequest().getResourceRef().getRemainingPart();
 		if (name.startsWith("/")) {
