@@ -34,6 +34,7 @@ import uk.ac.cam.ch.wwmm.opsin.NameToInchi;
 import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
 import uk.ac.cam.ch.wwmm.opsin.XOMFormatter;
+import uk.ac.cam.ch.wwmm.opsin.OpsinResult.OPSIN_RESULT_STATUS;
 
 /**
  * 
@@ -51,12 +52,10 @@ public class OPSINResource extends ServerResource {
 
 	private String name;
 	private static NameToStructure n2s;
-	private static NameToInchi n2i;
 	
 	static{
 		try {
 			n2s = NameToStructure.getInstance();
-			n2i = new NameToInchi();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("OPSIN failed to intialise!");
@@ -169,40 +168,42 @@ public class OPSINResource extends ServerResource {
 	}
 	
 	private Representation getInchiRepresentation() throws Exception {
-		String inchi = n2i.parseToInchi(name, false);
-		if (inchi == null) {
-			throw new ResourceException(
-					Status.CLIENT_ERROR_NOT_FOUND);
-		} else {
-			return new StringRepresentation(inchi, TYPE_INCHI);
+		OpsinResult opsinResult = n2s.parseChemicalName(name, false);
+		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
+			String inchi = NameToInchi.convertResultToInChI(opsinResult, false);
+			if (inchi == null) {
+				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "InChI generation failed!");
+			} else {
+				return new StringRepresentation(inchi, TYPE_INCHI);
+			}
 		}
+		else{
+			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
+		}
+
 	}
 
 	private Representation getSmilesRepresentation() throws Exception {
-		OpsinResult result = n2s.parseChemicalName(name, false);
-		if (result == null) {
-			throw new ResourceException(
-					Status.CLIENT_ERROR_NOT_FOUND);
-		} else {
-			String smiles =OpsinResultToSmiles.convertResultToSMILES(result, false);
+		OpsinResult opsinResult = n2s.parseChemicalName(name, false);
+		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
+			String smiles =OpsinResultToSmiles.convertResultToSMILES(opsinResult, false);
 			if (smiles == null) {
-				throw new ResourceException(
-						Status.CLIENT_ERROR_NOT_FOUND);
+				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "SMILES generation failed!");
 			} else {
 				return new StringRepresentation(smiles, TYPE_SMILES);
 			}
 		}
+		else{
+			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
+		}
 	}
 
 	private Representation getPngRepresentation() throws Exception {
-		OpsinResult result = n2s.parseChemicalName(name, false);
-		if (result == null) {
-			throw new ResourceException(
-					Status.CLIENT_ERROR_NOT_FOUND);
-		} else {
-			RenderedImage image = OpsinResultToDepiction.convertResultToDepction(result, false);
+		OpsinResult opsinResult = n2s.parseChemicalName(name, false);
+		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
+			RenderedImage image = OpsinResultToDepiction.convertResultToDepction(opsinResult, false);
 			if (image == null) {
-				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "Image generation failed!");
 			} else {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				ImageIO.write(image, "png", baos);
@@ -210,6 +211,9 @@ public class OPSINResource extends ServerResource {
 				ByteArrayRepresentation rep = new ByteArrayRepresentation(baos.toByteArray(), MediaType.IMAGE_PNG);
 				return rep;
 			}
+		}
+		else{
+			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
 		}
 	}
 	
