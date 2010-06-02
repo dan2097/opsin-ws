@@ -32,7 +32,7 @@
         $("#cml").text(cml);
       },
       error: function(XMLHttpRequest, textStatus, errorThrown){
-        $("#cml").text(textStatus);
+        $("#cml").text(XMLHttpRequest.statusText);
       }
 		} );
 		$.ajax({
@@ -46,7 +46,7 @@
         $("#inchi").text(inchi);
       },
       error: function(XMLHttpRequest, textStatus, errorThrown){
-        $("#inchi").text(textStatus);
+        $("#inchi").text(XMLHttpRequest.statusText);
       }
 		} );
 		$.ajax({
@@ -60,7 +60,7 @@
         $("#smiles").text(smiles);
       },
       error: function(XMLHttpRequest, textStatus, errorThrown){
-        $("#smiles").text(textStatus);
+        $("#smiles").text(XMLHttpRequest.statusText);
       }
 		} );
     $("#depiction").attr("src", "/opsin/" +chemicalName +".png");
@@ -111,7 +111,7 @@
       <input type="submit" value="Submit" />
     </fieldset>
   </form>
-  <p><span id="last-update">Updated 31/5/10: Many bug fixes/added more IUPAC retained names/Added support for spirobi and spiroter</span><br/> Depiction and SMILES courtesy of the CDK. Note that this web interface is primarily for demonstration purposes. Responsiveness and other issues will be addressed in the future.</p>
+  <p><span id="last-update">Updated 2/6/10: Web interface now outputs OPSIN error messages. Added support for dispiroter</span><br/> Depiction and SMILES courtesy of the CDK. Note that this web interface is primarily for demonstration purposes. Responsiveness and other issues will be addressed in the future.</p>
   <div id="results" style="display:none">
     <p><img id="depiction" src="" alt="" /></p>
     <h3>InChI:</h3>
