@@ -50,7 +50,13 @@
 		} );
     $("#depiction").attr("src", "/opsin/" +chemicalName +".png");
     return false;
-	})
+	});
+
+  if (window.location.hash) {
+    var name = window.location.hash.substring(1);
+    $("#chemicalName").val(name);
+		$("#chemicalNameForm").submit();
+  }
  });
 
 	var re = new RegExp('<h3>(.*)</h3>');
