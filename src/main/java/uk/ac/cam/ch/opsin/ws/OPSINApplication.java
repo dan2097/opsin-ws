@@ -17,6 +17,10 @@ import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
  */
 public class OPSINApplication extends Application {
 
+   public OPSINApplication() {
+     this.setStatusService(new OpsinStatusService());
+   }
+
    @Override
    public Restlet createRoot() {
       Router router = new Router(getContext());
