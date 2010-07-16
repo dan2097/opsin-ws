@@ -1,5 +1,10 @@
 package uk.ac.cam.ch.opsin.ws;
 
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.io.IOUtils;
 import org.restlet.data.MediaType;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
@@ -13,15 +18,40 @@ public class OpsinStatusService extends StatusService{
 	public OpsinStatusService() {
 		super(true);
 	}
+	
+	private static String errorHtml;
+	private static Pattern matchRegexReplacement;
+	
+	static {
+		try {
+			errorHtml = IOUtils.toString(OpsinStatusService.class.getResourceAsStream("/error.html"));
+		} catch (IOException e) {
+			errorHtml = null;
+		}
+		matchRegexReplacement = Pattern.compile("%.*?%");
+	}
 
 	public Representation getRepresentation(Status status, Request request, Response response) {
-		 if (status.isError()){
-			 System.out.println(request.toString());
-			 System.out.println(request.getResourceRef().toString());
-			return new StringRepresentation("This is an OPSIN error <a href='/opsin/cyclobutane.png'>link</a>", MediaType.TEXT_HTML);
-		 } 
-
+		if (status.isError()){
+			StringBuilder pageHtml = new StringBuilder();
+			Matcher m = matchRegexReplacement.matcher(errorHtml);
+			int position = 0;
+			while(m.find()) {//replace sections enclosed in %..% with the appropriate expression
+				pageHtml.append(errorHtml.substring(position, m.start()));
+				if (m.group().equals("%INPUT%")){
+					pageHtml.append(request.getResourceRef().getRemainingPart());
+				}
+				else if (m.group().equals("%ERRORMESSAGE%")){
+					pageHtml.append(status.getDescription());
+				}
+				else if (m.group().equals("%ERRORCODE%")){
+					pageHtml.append(status.getCode());
+				}
+				position = m.end();
+			}
+			pageHtml.append(errorHtml.substring(position));
+			return new StringRepresentation(pageHtml.toString(), MediaType.TEXT_HTML);
+		} 
 		return null;
-		
 	}
 }
