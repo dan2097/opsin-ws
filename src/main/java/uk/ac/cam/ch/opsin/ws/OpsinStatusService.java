@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
+import org.restlet.data.CharacterSet;
 import org.restlet.data.MediaType;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
@@ -50,7 +51,7 @@ public class OpsinStatusService extends StatusService{
 				position = m.end();
 			}
 			pageHtml.append(errorHtml.substring(position));
-			return new StringRepresentation(pageHtml.toString(), MediaType.TEXT_HTML);
+			return new StringRepresentation(pageHtml.toString(), MediaType.TEXT_HTML, null, CharacterSet.UTF_8);
 		} 
 		return null;
 	}
