@@ -12,7 +12,7 @@
       },
       dataType: "text",
       type: "GET",
-      url: "/opsin/" +chemicalName,
+      url: "/opsin/" +encodeURIComponent(chemicalName),
       success: function(cml){
         $("#cml").text(cml);
       },
@@ -26,7 +26,7 @@
       },
       dataType: "text",
       type: "GET",
-      url: "/opsin/" +chemicalName,
+      url: "/opsin/" +encodeURIComponent(chemicalName),
       success: function(inchi){
         $("#inchi").text(inchi);
       },
@@ -40,7 +40,7 @@
       },
       dataType: "text",
       type: "GET",
-      url: "/opsin/" +chemicalName,
+      url: "/opsin/" +encodeURIComponent(chemicalName),
       success: function(smiles){
         $("#smiles").text(smiles);
       },
@@ -48,7 +48,7 @@
         $("#smiles").text(extractResponseText(XMLHttpRequest.responseText));
       }
 		} );
-    $("#depiction").attr("src", "/opsin/" +chemicalName +".png");
+    $("#depiction").attr("src", "/opsin/" +encodeURIComponent(chemicalName) +".png");
     return false;
 	});
 
