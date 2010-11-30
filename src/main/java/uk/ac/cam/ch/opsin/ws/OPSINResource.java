@@ -32,6 +32,7 @@ import org.restlet.resource.ServerResource;
 import sea36.util.restlet.ByteArrayRepresentation;
 import uk.ac.cam.ch.wwmm.opsin.NameToInchi;
 import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
+import uk.ac.cam.ch.wwmm.opsin.NameToStructureConfig;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
 import uk.ac.cam.ch.wwmm.opsin.XOMFormatter;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult.OPSIN_RESULT_STATUS;
@@ -52,6 +53,7 @@ public class OPSINResource extends ServerResource {
 
 	private String name;
 	private static NameToStructure n2s;
+	private static NameToStructureConfig n2sConfig = new NameToStructureConfig();
 	
 	static{
 		try {
@@ -60,6 +62,7 @@ public class OPSINResource extends ServerResource {
 			e.printStackTrace();
 			throw new RuntimeException("OPSIN failed to intialise!");
 		}
+		n2sConfig.setDetailedFailureAnalysis(true);
 	}
 	
 	@Override
@@ -116,7 +119,8 @@ public class OPSINResource extends ServerResource {
 	}
 
 	private Representation getCmlRepresentation() throws Exception {
-		OpsinResult opsinResult = n2s.parseChemicalName(name, false);
+		OpsinResult opsinResult = n2s.parseChemicalName(name, n2sConfig);
+		System.out.println(opsinResult.getMessage());
 		if (opsinResult.getCml() == null) {
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
 		} else {
@@ -158,7 +162,7 @@ public class OPSINResource extends ServerResource {
 	}
 	
 	private Representation getNo2dCmlRepresentation() throws Exception {
-		OpsinResult opsinResult = n2s.parseChemicalName(name, false);
+		OpsinResult opsinResult = n2s.parseChemicalName(name, n2sConfig);
 		if (opsinResult.getCml() == null) {
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
 		} else {
@@ -168,7 +172,7 @@ public class OPSINResource extends ServerResource {
 	}
 	
 	private Representation getInchiRepresentation() throws Exception {
-		OpsinResult opsinResult = n2s.parseChemicalName(name, false);
+		OpsinResult opsinResult = n2s.parseChemicalName(name, n2sConfig);
 		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
 			String inchi = NameToInchi.convertResultToInChI(opsinResult, false);
 			if (inchi == null) {
@@ -184,7 +188,7 @@ public class OPSINResource extends ServerResource {
 	}
 
 	private Representation getSmilesRepresentation() throws Exception {
-		OpsinResult opsinResult = n2s.parseChemicalName(name, false);
+		OpsinResult opsinResult = n2s.parseChemicalName(name, n2sConfig);
 		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
 			String smiles =OpsinResultToSmiles.convertResultToSMILES(opsinResult, false);
 			if (smiles == null) {
@@ -199,7 +203,7 @@ public class OPSINResource extends ServerResource {
 	}
 
 	private Representation getPngRepresentation() throws Exception {
-		OpsinResult opsinResult = n2s.parseChemicalName(name, false);
+		OpsinResult opsinResult = n2s.parseChemicalName(name, n2sConfig);
 		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
 			RenderedImage image = OpsinResultToDepiction.convertResultToDepction(opsinResult, false);
 			if (image == null) {
