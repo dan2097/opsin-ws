@@ -6,6 +6,8 @@ package uk.ac.cam.ch.opsin.ws;
 
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -23,13 +25,13 @@ import org.openscience.cdk.layout.StructureDiagramGenerator;
 import org.restlet.data.MediaType;
 import org.restlet.data.Method;
 import org.restlet.data.Status;
+import org.restlet.representation.OutputRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
-import sea36.util.restlet.ByteArrayRepresentation;
 import uk.ac.cam.ch.wwmm.opsin.NameToInchi;
 import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
 import uk.ac.cam.ch.wwmm.opsin.NameToStructureConfig;
@@ -74,8 +76,10 @@ public class OPSINResource extends ServerResource {
 		list.add(new Variant(TYPE_SMILES));
 		list.add(new Variant(TYPE_NO2DCML));
 		list.add(new Variant(MediaType.IMAGE_PNG));
-		getVariants().put(Method.GET, list);
-		getVariants().put(Method.HEAD, list);
+		getVariants().addAll(list);
+		getVariants().addAll(list);
+		getAllowedMethods().add(Method.GET);
+		getAllowedMethods().add(Method.HEAD);
 		
 		String name = (String) getRequest().getResourceRef().getRemainingPart();
 		if (name.startsWith("/")) {
@@ -209,11 +213,16 @@ public class OPSINResource extends ServerResource {
 			if (image == null) {
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "Image generation failed!");
 			} else {
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				ImageIO.write(image, "png", baos);
 				baos.close();
-				ByteArrayRepresentation rep = new ByteArrayRepresentation(baos.toByteArray(), MediaType.IMAGE_PNG);
-				return rep;
+				return new OutputRepresentation(MediaType.IMAGE_PNG) {
+					
+					@Override
+					public void write(OutputStream outputStream) throws IOException {
+						outputStream.write(baos.toByteArray());
+					}
+				};
 			}
 		}
 		else{

@@ -1,7 +1,7 @@
 package uk.ac.cam.ch.opsin.ws;
 
-import org.restlet.data.Request;
-import org.restlet.data.Response;
+import org.restlet.Request;
+import org.restlet.Response;
 import org.restlet.routing.Filter;
 
 

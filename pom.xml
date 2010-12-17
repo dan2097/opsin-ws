@@ -109,7 +109,7 @@
       </repository>
    </repositories>
    <properties>
-      <restlet.version>2.0-SNAPSHOT</restlet.version>
+      <restlet.version>2.0.3</restlet.version>
    </properties>
    <dependencies>
       <dependency>
@@ -121,87 +121,21 @@
          <groupId>opsin</groupId>
          <artifactId>inchi</artifactId>
          <version>1.0-SNAPSHOT</version>
-      </dependency>      
-
-<!-- 
-      <dependency>
-         <groupId>com.noelios.restlet</groupId>
-         <artifactId>com.noelios.restlet</artifactId>
-         <version>${restlet.version}</version>
       </dependency>
       <dependency>
-         <groupId>com.noelios.restlet</groupId>
-         <artifactId>com.noelios.restlet.ext.jetty
-         </artifactId>
-         <version>${restlet.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>com.noelios.restlet</groupId>
-         <artifactId>com.noelios.restlet.ext.httpclient
-         </artifactId>
-         <version>${restlet.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>com.noelios.restlet</groupId>
-         <artifactId>com.noelios.restlet.ext.net
-         </artifactId>
-         <version>${restlet.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>com.noelios.restlet</groupId>
-         <artifactId>com.noelios.restlet.ext.servlet
-         </artifactId>
-         <version>${restlet.version}</version>
-      </dependency>
- -->
-       
-       <dependency>
-         <groupId>org.restlet</groupId>
+         <groupId>org.restlet.jse</groupId>
          <artifactId>org.restlet</artifactId>
          <version>${restlet.version}</version>
       </dependency>
       <dependency>
-         <groupId>org.restlet</groupId>
-         <artifactId>org.restlet.ext.fileupload</artifactId>
-         <version>${restlet.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>org.restlet</groupId>
+         <groupId>org.restlet.jee</groupId>
          <artifactId>org.restlet.ext.servlet</artifactId>
          <version>${restlet.version}</version>
       </dependency>
-      
       <dependency>
          <groupId>commons-io</groupId>
          <artifactId>commons-io</artifactId>
          <version>1.4</version>
-      </dependency>
-      <dependency>
-         <groupId>junit</groupId>
-         <artifactId>junit</artifactId>
-         <version>4.7</version>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>log4j</groupId>
-         <artifactId>log4j</artifactId>
-         <version>1.2.14</version>
-      </dependency>
-      <dependency>
-         <groupId>org.slf4j</groupId>
-         <artifactId>slf4j-log4j12</artifactId>
-         <version>1.0.1</version>
-      </dependency>
-      <dependency>
-         <groupId>sea36.util</groupId>
-		 <artifactId>util-restlet</artifactId>
-         <version>0.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-         <groupId>org.mockito</groupId>
-         <artifactId>mockito-all</artifactId>
-         <version>1.8.4</version>
-         <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>cdk</groupId>
@@ -219,6 +153,18 @@
         <groupId>jgrapht</groupId>
         <artifactId>jgrapht</artifactId>
         <version>0.6.0</version>
+      </dependency>
+      <dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit</artifactId>
+         <version>4.7</version>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.mockito</groupId>
+         <artifactId>mockito-all</artifactId>
+         <version>1.8.4</version>
+         <scope>test</scope>
       </dependency>
    </dependencies>
    <reporting>
