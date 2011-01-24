@@ -124,7 +124,6 @@ public class OPSINResource extends ServerResource {
 
 	private Representation getCmlRepresentation() throws Exception {
 		OpsinResult opsinResult = n2s.parseChemicalName(name, n2sConfig);
-		System.out.println(opsinResult.getMessage());
 		if (opsinResult.getCml() == null) {
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
 		} else {
@@ -194,7 +193,7 @@ public class OPSINResource extends ServerResource {
 	private Representation getSmilesRepresentation() throws Exception {
 		OpsinResult opsinResult = n2s.parseChemicalName(name, n2sConfig);
 		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
-			String smiles =OpsinResultToSmiles.convertResultToSMILES(opsinResult, false);
+			String smiles = opsinResult.getSmiles();
 			if (smiles == null) {
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "SMILES generation failed!");
 			} else {
