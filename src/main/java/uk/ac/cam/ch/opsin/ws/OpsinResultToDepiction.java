@@ -1,67 +1,53 @@
+/****************************************************************************
+* Copyright (C) 2011 Daniel Lowe
+*
+* This file is part of the OPSIN Web Service
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* A copy of the GNU General Public License version 3 is included in LICENSE.GPL
+***************************************************************************/
 package uk.ac.cam.ch.opsin.ws;
 
-import java.awt.image.RenderedImage;
+import java.io.IOException;
 
-import java.util.List;
+import com.ggasoftware.indigo.Indigo;
+import com.ggasoftware.indigo.IndigoObject;
+import com.ggasoftware.indigo.IndigoRenderer;
 
-import nu.xom.Element;
-
-import org.openscience.cdk.interfaces.IAtom;
-import org.openscience.cdk.interfaces.IBond;
-import org.openscience.cdk.interfaces.IMolecule;
+import dan2097.org.bitbucket.indigoloader.IndigoLoader;
 
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
 
 public class OpsinResultToDepiction {
 	
 	/**
-	 * Converts an OPSIN result to a rendered image. An exception is thrown if the conversion fails
+	 * Converts an OPSIN result to a byte array representing a PNG. An exception is thrown if indigo fails to initialise
 	 * @param result
-	 * @param verbose Whether to print lots of debugging information to stdin and stderr or not.
-	 * @return RenderedImage depiction of molecule
-	 * @throws DepictionGenerationException Thrown if conversion failed
+	 * @return
+	 * @throws IOException
 	 */
-	public static RenderedImage convertResultToDepction(OpsinResult result, boolean verbose){
-		verbose=true;
+	public static byte[] convertResultToDepiction(OpsinResult result) throws IOException{
 		if (result.getCml() != null){
-			RenderedImage depiction = null;
-			try{
-				depiction = CMLToDepiction(result.getCml(), verbose);
-			}
-			catch (Exception e) {
-				if (verbose){
-					e.printStackTrace();
-				}
-				return null;
-			}
-			if (depiction ==null){
-				return null;
-			}
-			return depiction;
+			Indigo indigo = IndigoLoader.getIndigo();
+			IndigoRenderer renderer = new IndigoRenderer(indigo);
+			indigo.setOption("render-output-format", "png");
+			indigo.setOption("render-coloring", true);
+			indigo.setOption("render-stereo-style", "none");
+			indigo.setOption("render-bond-length", "35");
+			indigo.setOption("render-label-mode", "hideterminal");
+			indigo.setOption("render-implicit-hydrogen-mode", "hetero");
+			IndigoObject mol = indigo.loadMolecule(result.getSmiles());
+			return renderer.renderToBuffer(mol);
 		}
 		return null;
-	}
-
-	private static RenderedImage CMLToDepiction(Element cml, boolean verbose) throws Exception {
-
-		IMolecule molecule = CMLToCDK.cmlToMolecule(cml);
-		for (int i = molecule.getAtomCount() -1 ; i>=0; i--) {
-			if (molecule.getAtom(i).getSymbol().equals("H")){
-				IAtom hydrogen =molecule.getAtom(i);
-				List<IBond> bonds = molecule.getConnectedBondsList(hydrogen);
-				if (bonds.size()>1){//could be something like diborane
-					throw new Exception("Unexpected hydrogen connectivity");
-				}
-				IAtom connectedAtom = bonds.get(0).getConnectedAtom(hydrogen);
-				connectedAtom.setHydrogenCount(connectedAtom.getHydrogenCount()==null ? 1 : connectedAtom.getHydrogenCount()  +1);
-				for (IBond iBond : bonds) {
-					molecule.removeBond(iBond);
-				}
-				molecule.removeAtom(hydrogen);
-			}
-		}
-		molecule = MultiFragmentStructureDiagramGeneratorCutDown.getMoleculeWith2DCoords(molecule);
-		Molecule2PngCutDown m2PNG = new Molecule2PngCutDown();
-		return (RenderedImage) m2PNG.renderMolecule(molecule);
 	}
 }

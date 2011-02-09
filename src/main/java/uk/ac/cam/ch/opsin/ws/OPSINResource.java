@@ -1,11 +1,22 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+/****************************************************************************
+* Copyright (C) 2011 Daniel Lowe
+*
+* This file is part of the OPSIN Web Service
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* A copy of the GNU General Public License version 3 is included in LICENSE.GPL
+***************************************************************************/
 package uk.ac.cam.ch.opsin.ws;
 
-import java.awt.image.RenderedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -13,15 +24,8 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-
-import nu.xom.Attribute;
 import nu.xom.Element;
-import nu.xom.Elements;
 
-import org.openscience.cdk.interfaces.IAtom;
-import org.openscience.cdk.interfaces.IMolecule;
-import org.openscience.cdk.layout.StructureDiagramGenerator;
 import org.restlet.data.MediaType;
 import org.restlet.data.Method;
 import org.restlet.data.Status;
@@ -31,6 +35,8 @@ import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+
+import com.ggasoftware.indigo.IndigoException;
 
 import uk.ac.cam.ch.wwmm.opsin.NameToInchi;
 import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
@@ -118,7 +124,7 @@ public class OPSINResource extends ServerResource {
 		} catch (ResourceException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+			throw new ResourceException(Status.SERVER_ERROR_INTERNAL, e);
 		}
 	}
 
@@ -127,49 +133,22 @@ public class OPSINResource extends ServerResource {
 		if (opsinResult.getCml() == null) {
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
 		} else {
-			Element cml =opsinResult.getCml();
 			try{
-				IMolecule mol = CMLToCDK.cmlToMolecule(cml);
-				StructureDiagramGenerator sdg = new StructureDiagramGenerator();
-				sdg.setMolecule(mol);
-				sdg.generateCoordinates();
-				mol = sdg.getMolecule();
-				Elements molecules = cml.getChildElements("molecule", "http://www.xml-cml.org/schema");
-				if (molecules.size()!=1){
-					throw new Exception("1 molecule element expected");
-				}
-				Elements atomArrays = molecules.get(0).getChildElements("atomArray", "http://www.xml-cml.org/schema");
-				if (atomArrays.size()!=1){
-					throw new Exception("1 atomArray element expected");
-				}
-				Elements atoms = atomArrays.get(0).getChildElements("atom", "http://www.xml-cml.org/schema");
-				if (atoms.size() < 1){
-					throw new Exception("At least 1 atom element expected");
-				}
-				int atomCount = mol.getAtomCount();
-				for (int i = 0; i < atomCount; i++) {
-					IAtom cdkAtom = mol.getAtom(i);
-					Element opsinAtom = atoms.get(i);
-					if (!cdkAtom.getID().equals(opsinAtom.getAttributeValue("id"))){
-						throw new Exception("Assumption that OPSIN and CDK atoms map to each other has been violated!");
-					}
-					opsinAtom.addAttribute(new Attribute("x2", String.valueOf(cdkAtom.getPoint2d().x)));
-					opsinAtom.addAttribute(new Attribute("y2",  String.valueOf(cdkAtom.getPoint2d().y)));
-				}
+				Element cml = OPSINResultToCMLWithCoords.convertResultToCMLWithCoords(opsinResult);
 				return new StringRepresentation(new XOMFormatter().elemToString(cml), TYPE_CML);
 			}
 			catch (Exception e) {
-				return new StringRepresentation(new XOMFormatter().elemToString(cml), TYPE_CML);
+				return new StringRepresentation(new XOMFormatter().elemToString(opsinResult.getCml()), TYPE_CML);
 			}
 		}
 	}
 	
 	private Representation getNo2dCmlRepresentation() throws Exception {
 		OpsinResult opsinResult = n2s.parseChemicalName(name, n2sConfig);
-		if (opsinResult.getCml() == null) {
+		Element cml =opsinResult.getCml();
+		if (cml == null) {
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
 		} else {
-			Element cml =opsinResult.getCml();
 			return new StringRepresentation(new XOMFormatter().elemToString(cml), TYPE_CML);
 		}
 	}
@@ -208,26 +187,31 @@ public class OPSINResource extends ServerResource {
 	private Representation getPngRepresentation() throws Exception {
 		OpsinResult opsinResult = n2s.parseChemicalName(name, n2sConfig);
 		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
-			RenderedImage image = OpsinResultToDepiction.convertResultToDepction(opsinResult, false);
-			if (image == null) {
+			final byte[] pngBytes;
+			try{
+				pngBytes = OpsinResultToDepiction.convertResultToDepiction(opsinResult);
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+				throw new ResourceException(Status.SERVER_ERROR_INTERNAL, "Indigo failed to initialise! Hence an image could not be generated", e);
+			}
+			catch (IndigoException e) {
+				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "Image generation failed!");
+			}
+			if (pngBytes == null) {
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "Image generation failed!");
 			} else {
-				final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				ImageIO.write(image, "png", baos);
-				baos.close();
 				return new OutputRepresentation(MediaType.IMAGE_PNG) {
-					
 					@Override
 					public void write(OutputStream outputStream) throws IOException {
-						outputStream.write(baos.toByteArray());
+						outputStream.write(pngBytes);
 					}
 				};
 			}
+
 		}
 		else{
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
 		}
 	}
-	
-	
 }
