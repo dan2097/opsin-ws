@@ -71,6 +71,7 @@ public class OPSINResource extends ServerResource {
 			throw new RuntimeException("OPSIN failed to intialise!");
 		}
 		n2sConfig.setDetailedFailureAnalysis(true);
+		n2sConfig.setAllowRadicals(true);
 	}
 	
 	@Override
