@@ -28,8 +28,6 @@ import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
 import com.ggasoftware.indigo.Indigo;
 import com.ggasoftware.indigo.IndigoObject;
 
-import dan2097.org.bitbucket.indigoloader.IndigoLoader;
-
 public class OPSINResultToCMLWithCoords {
 
 	/**
@@ -42,7 +40,7 @@ public class OPSINResultToCMLWithCoords {
 	public static Element convertResultToCMLWithCoords(OpsinResult result) throws IOException {
 		Element cml = result.getCml();
 		if (cml != null){
-			Indigo indigo = IndigoLoader.getIndigo();
+			Indigo indigo = new Indigo();
 			IndigoObject mol = indigo.loadMolecule(cml.toXML());
 			mol.layout();
 			Elements molecules = cml.getChildElements("molecule", "http://www.xml-cml.org/schema");

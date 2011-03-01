@@ -23,8 +23,6 @@ import com.ggasoftware.indigo.Indigo;
 import com.ggasoftware.indigo.IndigoObject;
 import com.ggasoftware.indigo.IndigoRenderer;
 
-import dan2097.org.bitbucket.indigoloader.IndigoLoader;
-
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
 
 public class OpsinResultToDepiction {
@@ -37,14 +35,13 @@ public class OpsinResultToDepiction {
 	 */
 	public static byte[] convertResultToDepiction(OpsinResult result) throws IOException{
 		if (result.getCml() != null){
-			Indigo indigo = IndigoLoader.getIndigo();
+			Indigo indigo = new Indigo();
 			IndigoRenderer renderer = new IndigoRenderer(indigo);
 			indigo.setOption("render-output-format", "png");
 			indigo.setOption("render-coloring", true);
 			indigo.setOption("render-stereo-style", "none");
 			indigo.setOption("render-bond-length", "35");
-			indigo.setOption("render-label-mode", "hideterminal");
-			indigo.setOption("render-implicit-hydrogen-mode", "hetero");
+			indigo.setOption("render-label-mode", "hetero");
 			IndigoObject mol = indigo.loadMolecule(result.getSmiles());
 			return renderer.renderToBuffer(mol);
 		}
