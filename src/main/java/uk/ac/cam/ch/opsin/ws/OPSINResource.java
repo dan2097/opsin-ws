@@ -157,7 +157,7 @@ public class OPSINResource extends ServerResource {
 	private Representation getInchiRepresentation() throws Exception {
 		OpsinResult opsinResult = n2s.parseChemicalName(name, n2sConfig);
 		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
-			String inchi = NameToInchi.convertResultToInChI(opsinResult, false);
+			String inchi = NameToInchi.convertResultToInChI(opsinResult);
 			if (inchi == null) {
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "InChI generation failed!");
 			} else {
