@@ -19,8 +19,6 @@ package uk.ac.cam.ch.opsin.ws;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,20 +82,10 @@ public class OPSINResource extends ServerResource {
 		list.add(new Variant(TYPE_NO2DCML));
 		list.add(new Variant(MediaType.IMAGE_PNG));
 		getVariants().addAll(list);
-		getVariants().addAll(list);
 		getAllowedMethods().add(Method.GET);
 		getAllowedMethods().add(Method.HEAD);
 		
-		String name = (String) getRequest().getResourceRef().getRemainingPart();
-		if (name.startsWith("/")) {
-			name = name.substring(1);
-		}
-		try {
-			name = URLDecoder.decode(name, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException("Java VM is broken! Must support UTF-8", e);
-		}
-		this.name = name;
+		name = (String) getRequest().getResourceRef().getLastSegment(true);
 	}
 
 	@Override
