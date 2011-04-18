@@ -31,26 +31,30 @@ import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
  */
 public class OPSINWebApp extends Application {
 
-   public OPSINWebApp() {
-	   this.setStatusService(new OpsinStatusService());
-   }
-	
-   @Override
-   public Restlet createRoot() {
-      Router router = new Router(getContext());
-      router.attachDefault(OPSINResource.class); 
-      
-      // Filter to override content negotiation by file extension
-      // MUST be applied before template, otherwise file extension ends up in name!
-      ContentFilter filter = new ContentFilter();
-      filter.setNext(router);
-      
-      try {
-		NameToStructure.getInstance();//initialise OPSIN early
-	  } catch (Exception e) {
-		e.printStackTrace();
-		throw new RuntimeException("OPSIN failed to intialise");
-	  }
-      return filter;
-   }
+    public OPSINWebApp() {
+        this.setStatusService(new OpsinStatusService());
+    }
+    
+    @Override
+    public Restlet createInboundRoot() {
+        Router router = new Router(getContext());
+        router.attachDefault(OPSINResource.class); 
+
+        // Filter to override content negotiation by file extension
+        // MUST be applied before template, otherwise file extension ends up in name!
+        ContentFilter filter = new ContentFilter();
+        filter.setNext(router);
+        return filter;
+    }
+
+    @Override
+    public void start() throws Exception {
+        super.start();
+        try {
+            NameToStructure.getInstance();//initialise OPSIN early
+        }
+        catch (Exception e) {
+            throw new RuntimeException("OPSIN failed to intialise", e);
+        }
+    }
 }
