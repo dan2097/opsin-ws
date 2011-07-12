@@ -128,33 +128,33 @@
       <dependency>
          <groupId>commons-io</groupId>
          <artifactId>commons-io</artifactId>
-         <version>1.4</version>
+         <version>2.0.1</version>
       </dependency>
       <dependency>
         <groupId>com.ggasoftware.indigo</groupId>
         <artifactId>indigo</artifactId>
-        <version>1.0.13</version>
+        <version>1.1-alpha3</version>
       </dependency>
       <dependency>
         <groupId>com.ggasoftware.indigo</groupId>
         <artifactId>indigo-renderer</artifactId>
-        <version>1.0.13</version>
+        <version>1.1-alpha3</version>
       </dependency>
       <dependency>
         <groupId>com.ggasoftware.indigo</groupId>
         <artifactId>jna</artifactId>
-        <version>1.0.13</version>
+        <version>1.1-alpha3</version>
       </dependency>
       <dependency>
          <groupId>junit</groupId>
          <artifactId>junit</artifactId>
-         <version>4.7</version>
+         <version>4.8.2</version>
          <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>org.mockito</groupId>
          <artifactId>mockito-all</artifactId>
-         <version>1.8.4</version>
+         <version>1.8.5</version>
          <scope>test</scope>
       </dependency>
    </dependencies>
