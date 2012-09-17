@@ -103,6 +103,7 @@
    </repositories>
    <properties>
       <restlet.version>2.0.3</restlet.version>
+			<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
    </properties>
    <dependencies>
       <dependency>
