@@ -69,28 +69,6 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-               <excludes>
-                  <exclude>**/*ITest.java</exclude>
-               </excludes>
-            </configuration>
-            <executions>
-               <execution>
-                  <id>surefire-it</id>
-                  <phase>integration-test</phase>
-                  <goals>
-                     <goal>test</goal>
-                  </goals>
-                  <configuration>
-                     <excludes>
-                        <exclude>none</exclude>
-                     </excludes>
-                     <includes>
-                        <include>**/*ITest.java</include>
-                     </includes>
-                  </configuration>
-               </execution>
-            </executions>
          </plugin>
       </plugins>
    </build>
@@ -144,22 +122,8 @@
       <dependency>
          <groupId>junit</groupId>
          <artifactId>junit</artifactId>
-         <version>4.8.2</version>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.mockito</groupId>
-         <artifactId>mockito-all</artifactId>
-         <version>1.8.5</version>
+         <version>4.11</version>
          <scope>test</scope>
       </dependency>
    </dependencies>
-   <reporting>
-      <plugins>
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>cobertura-maven-plugin</artifactId>
-         </plugin>
-      </plugins>
-   </reporting>
 </project>
