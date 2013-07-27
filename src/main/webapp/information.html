@@ -72,7 +72,8 @@ table#supported-nomenclature td {
   Due to the absence of any open source efforts with broad coverage of organic nomenclature work was started by Peter Murray-Rust and Joe Townsend on such a program.
   This work was continued by Peter Corbett cumulating in the creation of a system broadly similar to the current incarnation <a href="#corbett2006">(Corbett and Murray-Rust 2006)</a>.
   In 2008 Daniel Lowe took over development of the project as part of his PhD during which time the range of nomenclature supported as been expanded substantially, along with improvements to the parser
-  to cope with the complexity of the grammar of chemical names.<a href="#lowe2011">(Lowe et al. 2011)</a>
+  to cope with the complexity of the grammar of chemical names <a href="#lowe2011">(Lowe et al. 2011)</a>. A comprehensive description of OPSIN, its algorithms and performance (as of mid 2012)
+  is included in the PhD thesis <a href="#thesis2012">(Lowe 2012)</a>. Development of OPSIN is still on-going with more nomenclature continuing to be added <a href="#sheffield2013">(Lowe et al. 2013)</a>.
 </p>
 <h3 id="nomenclature">Examples of Supported Nomenclature</h3>
 <table id="supported-nomenclature">
@@ -182,11 +183,15 @@ table#supported-nomenclature td {
     <td><a href="opsin/%CE%BB5-phosphane.png">λ5-phosphane</a></td>
   </tr>
   <tr>
+    <td>Perhalogenation</td>
+    <td><a href="opsin/perchloro-3%2C4-dimethylenecyclobutene.png">perchloro-3,4-dimethylenecyclobutene</a></td>
+  </tr>
+  <tr>
     <td>Radicofunctional nomenclature</td>
-    <td>acids, acetals, alcohols, amides, anhydrides, azides, bromides, chlorides, cyanates, cyanides,
+    <td>acids, acetals, alcohols, amides, anhydrides, azetidides, azides, bromides, chlorides, cyanates, cyanides,
 esters, di/tri/tetra esters, ethers, fluorides, fulminates, glycols, glycol ethers, hemiacetals, hemiketal, hydrazones, hydroperoxides,
 hydrazides, imides, iodides, isocyanates, isocyanides, isoselenocyanates, isothiocyanates, ketals, ketones, lactams, lactims,
-lactones, selenocyanates, thiocyanates, selenols, thiols, mercaptans, oxides, oximes, peroxides, selenides, selenones, selenoxides,
+lactones, selenocyanates, thiocyanates, selenols, thiols, mercaptans, morpholides, oxides, oximes, peroxides, piperazides, piperidides, pyrrolidides, selenides, selenones, selenoxides,
 selones, selenoketones, selenosemicarbazones, semicarbazones, sulfides, sulfones, sulfoxides, sultams, sultims, sultines, sultones,
 tellurides, telluroketones, tellurosemicarbazones, tellurones, telluroxides, thioketones and thiosemicarbazones
 		</td>
@@ -217,9 +222,16 @@ tellurides, telluroketones, tellurosemicarbazones, tellurones, telluroxides, thi
 		</td>
   </tr>
   <tr>
-    <td>Simple cyclised monosaccharides</td>
+    <td>Cyclised monosaccharides and glycosides</td>
     <td>
-				<a href="opsin/%CE%B2-D-ribofuranose.png">β-D-ribofuranose</a>
+				<a href="opsin/%CE%B2-D-ribofuranose.png">β-D-ribofuranose</a><br/>
+				<a href="opsin/%CE%B2-D-fructofuranosyl%20%CE%B1-D-glucopyranosyl-(1-%3E4)-%CE%B1-D-glucopyranoside.png">β-D-fructofuranosyl α-D-glucopyranosyl-(1->4)-α-D-glucopyranoside</a>
+		</td>
+  </tr>
+  <tr>
+    <td>Deoxy and anhydro</td>
+    <td>
+				<a href="opsin/5-acetamido-2%2C7-anhydro-3%2C5-dideoxy-D-glycero-%CE%B1-D-galacto-non-2-ulopyranosonic%20acid.png">5-acetamido-2,7-anhydro-3,5-dideoxy-D-glycero-α-D-galacto-non-2-ulopyranosonic acid</a>
 		</td>
   </tr>
   <tr>
@@ -255,6 +267,14 @@ DOI: <a href="http://dx.doi.org/10.1007/11875741_11">10.1007/11875741_11</a></p>
 Chemical Name to Structure: OPSIN, an Open Source Solution.
 Journal of Chemical Information and Modeling. 2011, 51 (3), 739-753
 DOI: <a href="http://dx.doi.org/10.1021/ci100384d">10.1021/ci100384d</a></p>
+<p><a id="thesis2012">[3]</a> Daniel M. Lowe.
+Extraction of chemical structures and reactions from the literature.
+Ph.D. Thesis, University of Cambridge, 2012.
+Available from <a href="http://www.dspace.cam.ac.uk/handle/1810/244727">DSpace</a>.</p>
+<p><a id="sheffield2013">[4]</a> Daniel M. Lowe, Peter Murray-Rust, Robert C. Glen.
+OPSIN: Taming the Jungle of IUPAC Chemical Nomenclature.
+6th Joint Sheffield Conference on Chemoinformatics, 2013.
+Available from <a href="https://app.box.com/s/8u4vewvfu3sol3axli3r">here</a>.</p>
 
 <h3 id="libraries">Libraries</h3>
 <p>OPSIN utilises <a href="http://www.brics.dk/automaton/">dk.brics.automaton</a> to provide a discrete finite state automaton to allow the parsing of chemical names.
