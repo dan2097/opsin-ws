@@ -78,9 +78,14 @@
          <url>https://maven.ch.cam.ac.uk/m2repo
          </url>
       </repository>
+      <repository>
+        <id>maven-restlet</id>
+        <name>Public online Restlet repository</name>
+        <url>http://maven.restlet.org</url>
+      </repository>
    </repositories>
    <properties>
-      <restlet.version>2.0.3</restlet.version>
+      <restlet.version>2.1.3</restlet.version>
 			<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
    </properties>
    <dependencies>
