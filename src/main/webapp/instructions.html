@@ -35,23 +35,25 @@
 <div style="min-height: 360px">
   <h2>The OPSIN web interface can be utilised in three ways:</h2>
   <h3>Directly:</h3>
-  <p>Simply enter a chemical name into the web form and depiction/InChI/SMILES/CML will be returned</p>
+  <p>Simply enter a chemical name into the web form and chemical representations will be returned</p>
   <h3>By requesting a particular output using file extensions:</h3>
   <p>The web service resides at http://opsin.ch.cam.ac.uk/opsin/ . A request to that URL concatenated with the URL encoded chemical name will give a structure where the representation chosen is decided by the extension:</p>
   <ul>
     <li>.cml gives CML with 2d coordinates</li>
     <li>.no2d.cml gives CML without 2d coordinates</li>
     <li>.inchi gives InChI</li>
+    <li>.stdinchikey gives StdInChIKey</li>
     <li>.png gives a depiction</li>
     <li>.smi gives SMILES</li>
   </ul>
-  <p>For example <a href="http://opsin.ch.cam.ac.uk/opsin/cyclopropane.png">http://opsin.ch.cam.ac.uk/opsin/cyclopropane.png</a> yields a depiction of cyclopropane.</p>
+  <p>For example <a href="opsin/cyclopropane.png">http://opsin.ch.cam.ac.uk/opsin/cyclopropane.png</a> yields a depiction of cyclopropane.</p>
   <h3>By content negotiation:</h3>
   <p>The web service is RESTful and will respond appropriately to requests with the appropriate MIME type. For your convenience the MIME types expected are:</p>
   <ul>
     <li>chemical/x-cml for CML with 2d coordinates</li>
     <li>chemical/x-no2d-cml for CML without 2d coordinates</li>
     <li>chemical/x-inchi for InChI</li>
+    <li>chemical/x-stdinchikey for StdInChIKey</li>
     <li>image/png for png depiction</li>
     <li>chemical/x-daylight-smiles for SMILES</li>
   </ul>

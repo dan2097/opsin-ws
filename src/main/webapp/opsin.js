@@ -39,6 +39,21 @@
     } );
     $.ajax({
       beforeSend: function(req) {
+        req.setRequestHeader("Accept", "chemical/x-stdinchikey");
+      },
+      dataType: "text",
+      type: "GET",
+      url: "opsin/" +encodeURIComponent(chemicalName),
+    cache: false,
+      success: function(stdinchikey){
+        $("#stdinchikey").html("<a href=\"http://www.google.com/search?q="+ stdinchikey +"\" target=\"_blank\">" + stdinchikey + "</a> (Click to search the internet for this structure)");
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown){
+        $("#stdinchikey").text(extractResponseText(XMLHttpRequest.responseText));
+      }
+    } );
+    $.ajax({
+      beforeSend: function(req) {
         req.setRequestHeader("Accept", "chemical/x-daylight-smiles");
       },
       dataType: "text",

@@ -63,18 +63,20 @@
       <input type="submit" value="Submit" />
     </fieldset>
   </form>
-  <p><span id="last-update">Updated 19/4/14: InChI keys are now generated</span><br/>If you have found OPSIN useful in your work citing our <a href="http://pubs.acs.org/doi/full/10.1021/ci100384d">paper</a> would be very much appreciated. Depiction courtesy of the <a href="http://ggasoftware.com/opensource/indigo">Indigo Toolkit</a></p>
+  <p><span id="last-update">Updated 19/4/14: StdInChIKeys are now generated.</span><br/>If you have found OPSIN useful in your work citing our <a href="http://pubs.acs.org/doi/full/10.1021/ci100384d">paper</a> would be very much appreciated. Depiction courtesy of the <a href="http://ggasoftware.com/opensource/indigo">Indigo Toolkit</a></p>
   <div id="opsininstructions">
     <p>Enter a chemical name into the box and then click submit.<br />
        The chemical structure described by the name, or why it could not be interpreted, will appear here.</p>
   </div>
   <div id="results" style="display:none">
     <p><img id="depiction" src="" alt="" /></p>
-    <h3>InChI:</h3>
+    <h3 title="Tautomer specific InChI i.e. The layers in StdInChI but with a &quot;fixed hydrogen&quot; layer included if required">InChI:</h3>
     <p id="inchi"></p>
+    <h3 title="Hashed form of StdInChI. Multiple structures can have the same key (although this is in practice uncommon)">StdInChIKey:</h3>
+    <p id="stdinchikey"></p>
     <h3>SMILES:</h3>
     <p id="smiles"></p>
-    <h3>CML:</h3>
+    <h3 title="Chemical Markup Language">CML:</h3>
     <pre id="cml"></pre>
   </div>
 </div>
