@@ -40,7 +40,7 @@ public class APITest {
    }
 
    @Test
-   public void apiTest() throws Exception {
+   public void apiTestContentNegotiation() throws Exception {
       Client client = new Client(Protocol.HTTP);
       Request req = new Request(Method.GET, "http://localhost:8989/opsin/methane");
       req.getClientInfo().getAcceptedMediaTypes().clear();
@@ -58,5 +58,14 @@ public class APITest {
       req.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(TYPE_INCHI));
       Response res = client.handle(req);
       Assert.assertEquals(Status.CLIENT_ERROR_NOT_FOUND, res.getStatus());
+   }
+   
+   @Test
+   public void apiTestExtension() throws Exception {
+      Client client = new Client(Protocol.HTTP);
+      Request req = new Request(Method.GET, "http://localhost:8989/opsin/methane.smi");
+      Response res = client.handle(req);
+      String smiles = res.getEntity().getText();
+      Assert.assertEquals("C", smiles);
    }
 }

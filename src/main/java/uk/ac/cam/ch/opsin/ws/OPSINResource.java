@@ -55,6 +55,8 @@ public class OPSINResource extends ServerResource {
 	public final static MediaType TYPE_INCHI = MediaType.register("chemical/x-inchi", "InChI");
 	public final static MediaType TYPE_SMILES = MediaType.register("chemical/x-daylight-smiles", "SMILES");
 	
+	//These aren't commonly accepted MIME types
+	public final static MediaType TYPE_STDINCHIKEY = MediaType.register("chemical/x-stdinchikey", "StdInChIKey");
 	public final static MediaType TYPE_NO2DCML = MediaType.register("chemical/x-no2d-cml", "Chemical Markup Language");
 
 	private String name;
@@ -66,7 +68,7 @@ public class OPSINResource extends ServerResource {
 			n2s = NameToStructure.getInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new RuntimeException("OPSIN failed to intialise!");
+			throw new RuntimeException("OPSIN failed to initialise!");
 		}
 		n2sConfig.setDetailedFailureAnalysis(true);
 		n2sConfig.setAllowRadicals(true);
@@ -79,6 +81,7 @@ public class OPSINResource extends ServerResource {
 		list.add(new Variant(TYPE_CML));
 		list.add(new Variant(TYPE_INCHI));
 		list.add(new Variant(TYPE_SMILES));
+		list.add(new Variant(TYPE_STDINCHIKEY));
 		list.add(new Variant(TYPE_NO2DCML));
 		list.add(new Variant(MediaType.IMAGE_PNG));
 		getVariants().addAll(list);
@@ -103,6 +106,9 @@ public class OPSINResource extends ServerResource {
 			}
 			else if (MediaType.IMAGE_PNG.equals(variant.getMediaType())) {
 				return getPngRepresentation();
+			}
+			else if (TYPE_STDINCHIKEY.equals(variant.getMediaType())) {
+				return getInchiKeyRepresentation();
 			}
 			else if (TYPE_NO2DCML.equals(variant.getMediaType())) {
 				return getNo2dCmlRepresentation();
@@ -155,7 +161,21 @@ public class OPSINResource extends ServerResource {
 		else{
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
 		}
-
+	}
+	
+	private Representation getInchiKeyRepresentation() throws Exception {
+		OpsinResult opsinResult = n2s.parseChemicalName(name, n2sConfig);
+		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
+			String stdInchiKey = NameToInchi.convertResultToStdInChIKey(opsinResult);
+			if (stdInchiKey == null) {
+				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "StdInChIKey generation failed!");
+			} else {
+				return new StringRepresentation(stdInchiKey, TYPE_STDINCHIKEY);
+			}
+		}
+		else{
+			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
+		}
 	}
 
 	private Representation getSmilesRepresentation() throws Exception {
