@@ -1,6 +1,8 @@
 package uk.ac.cam.ch.opsin.ws;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -67,5 +69,38 @@ public class APITest {
       Response res = client.handle(req);
       String smiles = res.getEntity().getText();
       Assert.assertEquals("C", smiles);
+   }
+   
+   @Test
+   public void apiCmlWithCoords() throws Exception {
+      Client client = new Client(Protocol.HTTP);
+      Request req = new Request(Method.GET, "http://localhost:8989/opsin/toluene.cml");
+      Response res = client.handle(req);
+      String cml = res.getEntity().getText();
+      Assert.assertTrue(cml.length() > 0);
+      Matcher m = Pattern.compile("<atom [^<]*x2=\"[^<\"]*\\d[^<\"]*\"[^<]+y2=\"[^<\"]*\\d[^<\"]*\"").matcher(cml);
+      int matches = 0;
+      while(m.find()) {
+          matches++;
+      }
+      Assert.assertEquals(15, matches);
+   }
+   
+   @Test
+   public void apiCmlNoCoords() throws Exception {
+      Client client = new Client(Protocol.HTTP);
+      Request req = new Request(Method.GET, "http://localhost:8989/opsin/toluene.no2d.cml");
+      Response res = client.handle(req);
+      String cml = res.getEntity().getText();
+      Assert.assertTrue(cml.length() > 0);
+
+      Assert.assertFalse(cml.contains(" x2=\""));
+      Assert.assertFalse(cml.contains(" y2=\""));
+      Matcher m = Pattern.compile("<atom ").matcher(cml);
+      int matches = 0;
+      while(m.find()) {
+          matches++;
+      }
+      Assert.assertEquals(15, matches);
    }
 }

@@ -98,6 +98,7 @@
     </repository>
   </repositories>
   <properties>
+    <opsin.version>2.0-SNAPSHOT</opsin.version>
     <restlet.version>2.1.3</restlet.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -105,12 +106,12 @@
     <dependency>
       <groupId>uk.ac.cam.ch.opsin</groupId>
       <artifactId>opsin-core</artifactId>
-      <version>1.6.0</version>
+      <version>${opsin.version}</version>
     </dependency>
     <dependency>
       <groupId>uk.ac.cam.ch.opsin</groupId>
       <artifactId>opsin-inchi</artifactId>
-      <version>1.6.0</version>
+      <version>${opsin.version}</version>
     </dependency>
     <dependency>
       <groupId>org.restlet.jse</groupId>
