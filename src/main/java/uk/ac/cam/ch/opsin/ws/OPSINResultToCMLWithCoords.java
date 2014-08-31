@@ -17,18 +17,32 @@
 ***************************************************************************/
 package uk.ac.cam.ch.opsin.ws;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 
-import nu.xom.Attribute;
-import nu.xom.Element;
-import nu.xom.Elements;
+import javax.xml.stream.XMLEventFactory;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.XMLEvent;
 
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
 
+import com.ctc.wstx.stax.WstxEventFactory;
+import com.ctc.wstx.stax.WstxInputFactory;
+import com.ctc.wstx.stax.WstxOutputFactory;
 import com.ggasoftware.indigo.Indigo;
 import com.ggasoftware.indigo.IndigoObject;
 
 public class OPSINResultToCMLWithCoords {
+	
+	private static final XMLInputFactory inputFactory = new WstxInputFactory();
+	private static final XMLOutputFactory outputFactory = new WstxOutputFactory();
+	private static final XMLEventFactory eventFactory = new WstxEventFactory();
 
 	/**
 	 * Converts an OPSIN result to a CML element with coordinates provided by Indigo. An exception is thrown if Indigo fails to initialise
@@ -36,31 +50,43 @@ public class OPSINResultToCMLWithCoords {
 	 * @param result
 	 * @return
 	 * @throws IOException
+	 * @throws XMLStreamException 
 	 */
-	public static Element convertResultToCMLWithCoords(OpsinResult result) throws IOException {
-		Element cml = result.getCml();
+	public static String convertResultToCMLWithCoords(OpsinResult result) throws IOException, XMLStreamException {
+		String cml = result.getPrettyPrintedCml();
 		if (cml != null){
 			Indigo indigo = new Indigo();
-			IndigoObject mol = indigo.loadMolecule(cml.toXML());
+			IndigoObject mol = indigo.loadMolecule(cml);
 			mol.layout();
-			Elements molecules = cml.getChildElements("molecule", "http://www.xml-cml.org/schema");
-			if (molecules.size()!=1){
-				throw new RuntimeException("1 molecule element expected");
-			}
-			Elements atomArrays = molecules.get(0).getChildElements("atomArray", "http://www.xml-cml.org/schema");
-			if (atomArrays.size()!=1){
-				throw new RuntimeException("1 atomArray element expected");
-			}
-			Elements atoms = atomArrays.get(0).getChildElements("atom", "http://www.xml-cml.org/schema");
-			if (atoms.size() < 1){
-				throw new RuntimeException("At least 1 atom element expected");
-			}
+			
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			XMLEventReader xmlReader = inputFactory.createXMLEventReader(new StringReader(cml));
+			XMLEventWriter xmlWriter = outputFactory.createXMLEventWriter(out, "UTF-8");
+
 			int atomCount = mol.countAtoms();
-			for (int i = 0; i < atomCount; i++) {
-				IndigoObject indigoAtom =mol.getAtom(i);
-				Element opsinAtom = atoms.get(i);
-				opsinAtom.addAttribute(new Attribute("x2", String.valueOf(indigoAtom.xyz()[0])));
-				opsinAtom.addAttribute(new Attribute("y2",  String.valueOf(indigoAtom.xyz()[1])));
+			int atomIndex = 0;
+			while (xmlReader.hasNext()) {
+				XMLEvent event = xmlReader.nextEvent();
+				xmlWriter.add(event);
+				if (event.isStartElement() && 
+						event.asStartElement().getName().getLocalPart().equals("atom")){
+					if (atomIndex >= atomCount){
+						throw new RuntimeException("Indigo molecule has a different number of atoms to CML");
+					}
+					IndigoObject indigoAtom = mol.getAtom(atomIndex++);
+					xmlWriter.add(eventFactory.createAttribute("x2", String.valueOf(indigoAtom.xyz()[0])));
+					xmlWriter.add(eventFactory.createAttribute("y2", String.valueOf(indigoAtom.xyz()[1])));
+				}
+			}
+			xmlReader.close();
+			xmlWriter.close();
+			if (atomIndex != atomCount){
+				throw new RuntimeException("Indigo molecule has a different number of atoms to CML");
+			}
+			try {
+				return out.toString("UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				throw new RuntimeException("JVM doesn't support UTF-8...but it should do!");
 			}
 		}
 		return cml;

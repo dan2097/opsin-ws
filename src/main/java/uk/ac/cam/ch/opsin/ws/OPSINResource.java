@@ -22,8 +22,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import nu.xom.Element;
-
 import org.restlet.data.MediaType;
 import org.restlet.data.Method;
 import org.restlet.data.Status;
@@ -40,7 +38,6 @@ import uk.ac.cam.ch.wwmm.opsin.NameToInchi;
 import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
 import uk.ac.cam.ch.wwmm.opsin.NameToStructureConfig;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
-import uk.ac.cam.ch.wwmm.opsin.XOMFormatter;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult.OPSIN_RESULT_STATUS;
 
 /**
@@ -93,7 +90,6 @@ public class OPSINResource extends ServerResource {
 
 	@Override
 	protected Representation get(Variant variant) throws ResourceException {
-		
 		try {
 			if (TYPE_CML.equals(variant.getMediaType())) {
 				return getCmlRepresentation();
@@ -125,26 +121,37 @@ public class OPSINResource extends ServerResource {
 
 	private Representation getCmlRepresentation() throws Exception {
 		OpsinResult opsinResult = n2s.parseChemicalName(name, n2sConfig);
-		if (opsinResult.getCml() == null) {
-			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
-		} else {
+		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
 			try{
-				Element cml = OPSINResultToCMLWithCoords.convertResultToCMLWithCoords(opsinResult);
-				return new StringRepresentation(new XOMFormatter().elemToString(cml), TYPE_CML);
+				String cml = OPSINResultToCMLWithCoords.convertResultToCMLWithCoords(opsinResult);
+				return new StringRepresentation(cml, TYPE_CML);
 			}
 			catch (Exception e) {
-				return new StringRepresentation(new XOMFormatter().elemToString(opsinResult.getCml()), TYPE_CML);
+				String cml = opsinResult.getPrettyPrintedCml();
+				if (cml != null) {
+					return new StringRepresentation(cml, TYPE_CML);
+				} else {
+					throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "CML generation failed!");
+				}
 			}
+		}
+		else{
+			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
 		}
 	}
 	
 	private Representation getNo2dCmlRepresentation() throws Exception {
 		OpsinResult opsinResult = n2s.parseChemicalName(name, n2sConfig);
-		Element cml =opsinResult.getCml();
-		if (cml == null) {
+		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
+			String cml = opsinResult.getPrettyPrintedCml();
+			if (cml != null) {
+				return new StringRepresentation(cml, TYPE_CML);
+			} else {
+				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "CML generation failed!");
+			}
+		}
+		else{
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
-		} else {
-			return new StringRepresentation(new XOMFormatter().elemToString(cml), TYPE_CML);
 		}
 	}
 	
