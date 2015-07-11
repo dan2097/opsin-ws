@@ -45,6 +45,7 @@
     <li>.stdinchikey gives StdInChIKey</li>
     <li>.png gives a depiction</li>
     <li>.smi gives SMILES</li>
+    <li>.json gives JSON (keys: cml, inchi, stdinchi, stdinchikey, smiles, message)</li>
   </ul>
   <p>For example <a href="opsin/cyclopropane.png">http://opsin.ch.cam.ac.uk/opsin/cyclopropane.png</a> yields a depiction of cyclopropane.</p>
   <h3>By content negotiation:</h3>
@@ -56,13 +57,14 @@
     <li>chemical/x-stdinchikey for StdInChIKey</li>
     <li>image/png for png depiction</li>
     <li>chemical/x-daylight-smiles for SMILES</li>
+    <li>application/json for JSON (keys: cml, inchi, stdinchi, stdinchikey, smiles, message)</li>
   </ul>
   <p>The web service resides at http://opsin.ch.cam.ac.uk/opsin/</p>
   <h2>Specification of non ASCII characters:</h2>
   <h3>Greek Characters</h3>
   <p>Greek characters may be specified by:</p>
   <ul>
-    <li>The appropriate UTF-8 character e.g. λ</li>
+    <li>The appropriate Unicode character e.g. λ</li>
     <li>The romanised name for the letter e.g. lambda</li>
 		<li>The romanised name for the letter surrounded by dots e.g. .lambda.</li>
     <li>The corresponding modern letter prefixed with a dollar e.g. $l</li>
