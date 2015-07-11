@@ -3,17 +3,18 @@
    "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
    "http://java.sun.com/dtd/web-app_2_3.dtd">
 <web-app>
-	<display-name>OPSIN</display-name>
-    <context-param>
-       <param-name>org.restlet.application</param-name>
-       <param-value>uk.ac.cam.ch.opsin.ws.OpsinWebApp</param-value>
-    </context-param>
-    <servlet>
-       <servlet-name>restlet</servlet-name>
-       <servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
-    </servlet>
-	<servlet-mapping>
-		<servlet-name>restlet</servlet-name>
-		<url-pattern>/opsin/*</url-pattern>
-	</servlet-mapping>
+  <display-name>OPSIN</display-name>
+  <servlet>
+    <servlet-name>restlet</servlet-name>
+    <servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>org.restlet.component</param-name>
+      <param-value>uk.ac.cam.ch.opsin.ws.OpsinComponent</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>restlet</servlet-name>
+    <url-pattern>/opsin/*</url-pattern>
+  </servlet-mapping>
 </web-app>
