@@ -21,8 +21,6 @@ import org.restlet.Application;
 import org.restlet.Restlet;
 import org.restlet.routing.Router;
 
-import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
-
 /**
  *
  * @author ojd20
@@ -47,14 +45,4 @@ public class OpsinWebApp extends Application {
         return filter;
     }
 
-    @Override
-    public void start() throws Exception {
-        super.start();
-        try {
-            NameToStructure.getInstance();//initialise OPSIN early
-        }
-        catch (Exception e) {
-            throw new RuntimeException("OPSIN failed to intialise", e);
-        }
-    }
 }
