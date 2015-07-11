@@ -22,6 +22,10 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.jniinchi.JniInchiWrapper;
+
+import org.json.JSONException;
+import org.json.JSONStringer;
 import org.restlet.data.MediaType;
 import org.restlet.data.Method;
 import org.restlet.data.Status;
@@ -50,6 +54,7 @@ public class OpsinResource extends ServerResource {
 
 	public final static MediaType TYPE_CML = MediaType.register("chemical/x-cml", "Chemical Markup Language");
 	public final static MediaType TYPE_INCHI = MediaType.register("chemical/x-inchi", "InChI");
+	public final static MediaType TYPE_JSON = MediaType.register("application/json", "JSON");
 	public final static MediaType TYPE_SMILES = MediaType.register("chemical/x-daylight-smiles", "SMILES");
 	
 	//These aren't commonly accepted MIME types
@@ -77,6 +82,7 @@ public class OpsinResource extends ServerResource {
 		List<Variant> list = new ArrayList<Variant>();
 		list.add(new Variant(TYPE_CML));
 		list.add(new Variant(TYPE_INCHI));
+		list.add(new Variant(TYPE_JSON));
 		list.add(new Variant(TYPE_SMILES));
 		list.add(new Variant(TYPE_STDINCHIKEY));
 		list.add(new Variant(TYPE_NO2DCML));
@@ -96,6 +102,9 @@ public class OpsinResource extends ServerResource {
 			}
 			else if (TYPE_INCHI.equals(variant.getMediaType())) {
 				return getInchiRepresentation();
+			}
+			else if (TYPE_JSON.equals(variant.getMediaType())) {
+				return getJsonRepresentation();
 			}
 			else if (TYPE_SMILES.equals(variant.getMediaType())) {
 				return getSmilesRepresentation();
@@ -179,6 +188,40 @@ public class OpsinResource extends ServerResource {
 			} else {
 				return new StringRepresentation(stdInchiKey, TYPE_STDINCHIKEY);
 			}
+		}
+		else{
+			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
+		}
+	}
+
+	private Representation getJsonRepresentation() {
+		OpsinResult opsinResult = n2s.parseChemicalName(name, n2sConfig);
+		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
+			String inchi = NameToInchi.convertResultToInChI(opsinResult);
+			String stdInchi = NameToInchi.convertResultToStdInChI(opsinResult);
+			String stdInchiKey = null;
+			if (stdInchi != null){
+				try {
+					stdInchiKey = JniInchiWrapper.getInchiKey(stdInchi).getKey();
+				} catch (Exception e) {}
+			}
+			String smiles = opsinResult.getSmiles();
+			String cml = opsinResult.getPrettyPrintedCml();
+			
+			String json = null;
+			try {
+				json = new JSONStringer().object()
+					.key("cml").value(cml)
+					.key("inchi").value(inchi)
+					.key("stdinchi").value(stdInchi)
+					.key("stdinchikey").value(stdInchiKey)
+					.key("smiles").value(smiles)
+					.key("message").value(opsinResult.getMessage())
+				.endObject().toString();
+			} catch (JSONException e) {
+				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "JSON generation failed!");
+			}
+			return new StringRepresentation(json, TYPE_JSON);
 		}
 		else{
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());

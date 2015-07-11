@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.json.JSONObject;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -17,6 +18,7 @@ import org.restlet.Component;
 import org.restlet.Request;
 import org.restlet.Response;
 import org.restlet.data.Status;
+import org.restlet.ext.json.JsonRepresentation;
 
 /**
  *
@@ -72,7 +74,7 @@ public class APITest {
    }
    
    @Test
-   public void apiCmlWithCoords() throws Exception {
+   public void apiTestCmlWithCoords() throws Exception {
       Client client = new Client(Protocol.HTTP);
       Request req = new Request(Method.GET, "http://localhost:8989/opsin/toluene.cml");
       Response res = client.handle(req);
@@ -87,7 +89,7 @@ public class APITest {
    }
    
    @Test
-   public void apiCmlNoCoords() throws Exception {
+   public void apiTestCmlNoCoords() throws Exception {
       Client client = new Client(Protocol.HTTP);
       Request req = new Request(Method.GET, "http://localhost:8989/opsin/toluene.no2d.cml");
       Response res = client.handle(req);
@@ -102,5 +104,20 @@ public class APITest {
           matches++;
       }
       Assert.assertEquals(15, matches);
+   }
+   
+   @Test
+   public void apiTestJson() throws Exception {
+      Client client = new Client(Protocol.HTTP);
+      Request req = new Request(Method.GET, "http://localhost:8989/opsin/methane.json");
+      Response res = client.handle(req);
+      JsonRepresentation json = new JsonRepresentation(res.getEntity());
+      JSONObject object = json.getJsonObject();
+      Assert.assertEquals(true, object.getString("cml").length() > 20);
+      Assert.assertEquals("InChI=1/CH4/h1H4", object.getString("inchi"));
+      Assert.assertEquals("InChI=1S/CH4/h1H4", object.getString("stdinchi"));
+      Assert.assertEquals("VNWKTOKETHGBQD-UHFFFAOYSA-N", object.getString("stdinchikey"));
+      Assert.assertEquals("C", object.getString("smiles"));
+      Assert.assertEquals("", object.getString("message"));
    }
 }

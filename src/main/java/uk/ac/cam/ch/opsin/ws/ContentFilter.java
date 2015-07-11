@@ -38,6 +38,11 @@ public class ContentFilter extends Filter {
 			request.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(OpsinResource.TYPE_CML));
 			request.getResourceRef().setPath(path.substring(0, path.length() - 4));
 		}
+		else if (path.endsWith(".json")) {
+			request.getClientInfo().getAcceptedMediaTypes().clear();
+			request.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(OpsinResource.TYPE_JSON));
+			request.getResourceRef().setPath(path.substring(0, path.length() - 5));
+		}
 		else if (path.endsWith(".png")) {
 			request.getClientInfo().getAcceptedMediaTypes().clear();
 			request.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(MediaType.IMAGE_PNG));
