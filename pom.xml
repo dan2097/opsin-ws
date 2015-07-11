@@ -88,9 +88,9 @@
   </build>
   <repositories>
     <repository>
-        <id>maven-restlet</id>
-        <name>Restlet repository</name>
-        <url>http://maven.restlet.com</url>
+      <id>maven-restlet</id>
+      <name>Restlet repository</name>
+      <url>http://maven.restlet.com</url>
     </repository>
     <repository>
       <id>ucc-repo</id>
@@ -99,7 +99,7 @@
   </repositories>
   <properties>
     <opsin.version>2.0.0</opsin.version>
-    <restlet.version>2.3.3</restlet.version>
+    <restlet.version>2.2.3</restlet.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
