@@ -38,7 +38,7 @@ import com.ctc.wstx.stax.WstxOutputFactory;
 import com.ggasoftware.indigo.Indigo;
 import com.ggasoftware.indigo.IndigoObject;
 
-public class OPSINResultToCMLWithCoords {
+public class OpsinResultToCMLWithCoords {
 	
 	private static final XMLInputFactory inputFactory = new WstxInputFactory();
 	private static final XMLOutputFactory outputFactory = new WstxOutputFactory();

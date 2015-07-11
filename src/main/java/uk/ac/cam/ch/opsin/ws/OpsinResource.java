@@ -46,7 +46,7 @@ import uk.ac.cam.ch.wwmm.opsin.OpsinResult.OPSIN_RESULT_STATUS;
  * @author dl387
  * @author sea36
  */
-public class OPSINResource extends ServerResource {
+public class OpsinResource extends ServerResource {
 
 	public final static MediaType TYPE_CML = MediaType.register("chemical/x-cml", "Chemical Markup Language");
 	public final static MediaType TYPE_INCHI = MediaType.register("chemical/x-inchi", "InChI");
@@ -123,7 +123,7 @@ public class OPSINResource extends ServerResource {
 		OpsinResult opsinResult = n2s.parseChemicalName(name, n2sConfig);
 		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
 			try{
-				String cml = OPSINResultToCMLWithCoords.convertResultToCMLWithCoords(opsinResult);
+				String cml = OpsinResultToCMLWithCoords.convertResultToCMLWithCoords(opsinResult);
 				return new StringRepresentation(cml, TYPE_CML);
 			}
 			catch (Exception e) {

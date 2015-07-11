@@ -29,16 +29,16 @@ import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
  * @author dl387
  * @author sea36
  */
-public class OPSINWebApp extends Application {
+public class OpsinWebApp extends Application {
 
-    public OPSINWebApp() {
+    public OpsinWebApp() {
         this.setStatusService(new OpsinStatusService());
     }
     
     @Override
     public Restlet createInboundRoot() {
         Router router = new Router(getContext());
-        router.attachDefault(OPSINResource.class); 
+        router.attachDefault(OpsinResource.class); 
 
         // Filter to override content negotiation by file extension
         // MUST be applied before template, otherwise file extension ends up in name!
