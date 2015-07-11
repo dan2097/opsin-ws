@@ -48,8 +48,9 @@ public class OpsinStatusService extends StatusService{
 		}
 		matchRegexReplacement = Pattern.compile("%.*?%");
 	}
-
-	public Representation getRepresentation(Status status, Request request, Response response) {
+	
+	@Override
+	public Representation toRepresentation(Status status, Request request, Response response) {
 		if (status.isError()){
 			StringBuilder pageHtml = new StringBuilder();
 			Matcher m = matchRegexReplacement.matcher(errorHtml);
