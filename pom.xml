@@ -88,13 +88,13 @@
   </build>
   <repositories>
     <repository>
-      <id>ucc-repo</id>
-      <url>https://maven.ch.cam.ac.uk/m2repo</url>
+        <id>maven-restlet</id>
+        <name>Restlet repository</name>
+        <url>http://maven.restlet.com</url>
     </repository>
     <repository>
-      <id>maven-restlet</id>
-      <name>Public online Restlet repository</name>
-      <url>http://maven.restlet.org</url>
+      <id>ucc-repo</id>
+      <url>https://maven.ch.cam.ac.uk/m2repo</url>
     </repository>
   </repositories>
   <properties>
