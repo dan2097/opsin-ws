@@ -50,7 +50,7 @@ public class OpsinStatusService extends StatusService{
 	}
 	
 	@Override
-	public Representation toRepresentation(Status status, Request request, Response response) {
+	public Representation getRepresentation(Status status, Request request, Response response) {
 		if (status.isError()){
 			StringBuilder pageHtml = new StringBuilder();
 			Matcher m = matchRegexReplacement.matcher(errorHtml);
