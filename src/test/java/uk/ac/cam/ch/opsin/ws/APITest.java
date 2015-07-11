@@ -32,7 +32,7 @@ public class APITest {
    public static void setup() throws Exception{
      component = new Component();
      component.getServers().add(Protocol.HTTP, 8989);
-     component.getDefaultHost().attachDefault(new OPSINWebApp());
+     component.getDefaultHost().attachDefault(new OpsinWebApp());
      component.start();
    }
    
