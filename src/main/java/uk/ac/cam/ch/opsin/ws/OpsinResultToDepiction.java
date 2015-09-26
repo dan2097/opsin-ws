@@ -33,8 +33,9 @@ public class OpsinResultToDepiction {
 	 * @return
 	 * @throws IOException
 	 */
-	public static byte[] convertResultToDepiction(OpsinResult result) throws IOException{
-		if (result.getCml() != null){
+	public static byte[] convertResultToDepiction(OpsinResult result) throws IOException {
+		String smiles = result.getSmiles();
+		if (smiles != null){
 			Indigo indigo = new Indigo();
 			IndigoRenderer renderer = new IndigoRenderer(indigo);
 			indigo.setOption("render-output-format", "png");
@@ -42,7 +43,7 @@ public class OpsinResultToDepiction {
 			indigo.setOption("render-stereo-style", "none");
 			indigo.setOption("render-bond-length", "35");
 			indigo.setOption("render-label-mode", "hetero");
-			IndigoObject mol = indigo.loadMolecule(result.getSmiles());
+			IndigoObject mol = indigo.loadMolecule(smiles);
 			return renderer.renderToBuffer(mol);
 		}
 		return null;
