@@ -22,8 +22,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.jniinchi.JniInchiWrapper;
-
 import org.json.JSONException;
 import org.json.JSONStringer;
 import org.restlet.data.MediaType;
@@ -36,8 +34,9 @@ import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
-import com.ggasoftware.indigo.IndigoException;
+import com.epam.indigo.IndigoException;
 
+import net.sf.jniinchi.JniInchiWrapper;
 import uk.ac.cam.ch.wwmm.opsin.NameToInchi;
 import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
 import uk.ac.cam.ch.wwmm.opsin.NameToStructureConfig;

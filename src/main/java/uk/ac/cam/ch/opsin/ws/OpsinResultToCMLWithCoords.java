@@ -30,13 +30,13 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
-import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
-
 import com.ctc.wstx.stax.WstxEventFactory;
 import com.ctc.wstx.stax.WstxInputFactory;
 import com.ctc.wstx.stax.WstxOutputFactory;
-import com.ggasoftware.indigo.Indigo;
-import com.ggasoftware.indigo.IndigoObject;
+import com.epam.indigo.Indigo;
+import com.epam.indigo.IndigoObject;
+
+import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
 
 public class OpsinResultToCMLWithCoords {
 	

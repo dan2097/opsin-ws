@@ -19,9 +19,9 @@ package uk.ac.cam.ch.opsin.ws;
 
 import java.io.IOException;
 
-import com.ggasoftware.indigo.Indigo;
-import com.ggasoftware.indigo.IndigoObject;
-import com.ggasoftware.indigo.IndigoRenderer;
+import com.epam.indigo.Indigo;
+import com.epam.indigo.IndigoObject;
+import com.epam.indigo.IndigoRenderer;
 
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
 
