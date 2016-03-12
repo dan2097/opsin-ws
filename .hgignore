@@ -1,4 +1,4 @@
-relre:target/*
+relre:target/.*
 .classpath
 .project
 .settings
