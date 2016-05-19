@@ -57,6 +57,7 @@ public class OpsinResource extends ServerResource {
 	public final static MediaType TYPE_SMILES = MediaType.register("chemical/x-daylight-smiles", "SMILES");
 	
 	//These aren't commonly accepted MIME types
+	public final static MediaType TYPE_STDINCHI = MediaType.register("chemical/x-stdinchi", "StdInChI");
 	public final static MediaType TYPE_STDINCHIKEY = MediaType.register("chemical/x-stdinchikey", "StdInChIKey");
 	public final static MediaType TYPE_NO2DCML = MediaType.register("chemical/x-no2d-cml", "Chemical Markup Language");
 
@@ -83,6 +84,7 @@ public class OpsinResource extends ServerResource {
 		list.add(new Variant(TYPE_INCHI));
 		list.add(new Variant(TYPE_JSON));
 		list.add(new Variant(TYPE_SMILES));
+		list.add(new Variant(TYPE_STDINCHI));
 		list.add(new Variant(TYPE_STDINCHIKEY));
 		list.add(new Variant(TYPE_NO2DCML));
 		list.add(new Variant(MediaType.IMAGE_PNG));
@@ -96,25 +98,29 @@ public class OpsinResource extends ServerResource {
 	@Override
 	protected Representation get(Variant variant) throws ResourceException {
 		try {
-			if (TYPE_CML.equals(variant.getMediaType())) {
+			MediaType format = variant.getMediaType();
+			if (TYPE_CML.equals(format)) {
 				return getCmlRepresentation();
 			}
-			else if (TYPE_INCHI.equals(variant.getMediaType())) {
+			else if (TYPE_INCHI.equals(format)) {
 				return getInchiRepresentation();
 			}
-			else if (TYPE_JSON.equals(variant.getMediaType())) {
+			else if (TYPE_JSON.equals(format)) {
 				return getJsonRepresentation();
 			}
-			else if (TYPE_SMILES.equals(variant.getMediaType())) {
+			else if (TYPE_SMILES.equals(format)) {
 				return getSmilesRepresentation();
 			}
-			else if (MediaType.IMAGE_PNG.equals(variant.getMediaType())) {
+			else if (MediaType.IMAGE_PNG.equals(format)) {
 				return getPngRepresentation();
 			}
-			else if (TYPE_STDINCHIKEY.equals(variant.getMediaType())) {
-				return getInchiKeyRepresentation();
+			else if (TYPE_STDINCHI.equals(format)) {
+				return getStdInchiRepresentation();
 			}
-			else if (TYPE_NO2DCML.equals(variant.getMediaType())) {
+			else if (TYPE_STDINCHIKEY.equals(format)) {
+				return getStdInchiKeyRepresentation();
+			}
+			else if (TYPE_NO2DCML.equals(format)) {
 				return getNo2dCmlRepresentation();
 			}
 			else{
@@ -178,7 +184,22 @@ public class OpsinResource extends ServerResource {
 		}
 	}
 	
-	private Representation getInchiKeyRepresentation() throws Exception {
+	private Representation getStdInchiRepresentation() throws Exception {
+		OpsinResult opsinResult = n2s.parseChemicalName(name, n2sConfig);
+		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
+			String stdInchi = NameToInchi.convertResultToStdInChI(opsinResult);
+			if (stdInchi == null) {
+				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "StdInChI generation failed!");
+			} else {
+				return new StringRepresentation(stdInchi, TYPE_STDINCHIKEY);
+			}
+		}
+		else{
+			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
+		}
+	}
+	
+	private Representation getStdInchiKeyRepresentation() throws Exception {
 		OpsinResult opsinResult = n2s.parseChemicalName(name, n2sConfig);
 		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
 			String stdInchiKey = NameToInchi.convertResultToStdInChIKey(opsinResult);

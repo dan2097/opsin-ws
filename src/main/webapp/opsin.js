@@ -6,7 +6,7 @@ $(document).ready(function() {
    $("#message").text("");
    $("#messagetype").text("");
    $("#cml").text("");
-   $("#inchi").text("");
+   $("#stdinchi").text("");
    $("#stdinchikey").text("");
    $("#smiles").text("");
    var chemicalName = $("#chemicalName").val();
@@ -25,7 +25,7 @@ $(document).ready(function() {
          $("#message").text(response.message);
        }
        $("#cml").text(response.cml);
-       $("#inchi").text(response.inchi);
+       $("#stdinchi").text(response.stdinchi);
        $("#stdinchikey").html("<a href=\"http://www.google.com/search?q="+ response.stdinchikey +"\" target=\"_blank\">" + response.stdinchikey + "</a> (Click to search the internet for this structure)");
        $("#smiles").text(response.smiles);
      },
