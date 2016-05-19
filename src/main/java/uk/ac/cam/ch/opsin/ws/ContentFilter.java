@@ -53,6 +53,11 @@ public class ContentFilter extends Filter {
 			request.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(OpsinResource.TYPE_INCHI));
 			request.getResourceRef().setPath(path.substring(0, path.length() - 6));
 		}
+		else if (path.endsWith(".stdinchi")) {
+			request.getClientInfo().getAcceptedMediaTypes().clear();
+			request.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(OpsinResource.TYPE_STDINCHI));
+			request.getResourceRef().setPath(path.substring(0, path.length() - 9));
+		}
 		else if (path.endsWith(".stdinchikey")) {
 			request.getClientInfo().getAcceptedMediaTypes().clear();
 			request.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(OpsinResource.TYPE_STDINCHIKEY));

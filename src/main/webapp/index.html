@@ -63,7 +63,7 @@
       <input type="submit" value="Submit" />
     </fieldset>
   </form>
-  <p><span id="last-update">Updated 12/03/16: OPSIN 2.1.0 has been released! This version is available from <a href="http://bitbucket.org/dan2097/opsin/downloads">BitBucket</a> and Maven central</span><br/>If you have found OPSIN useful in your work citing our <a href="http://pubs.acs.org/doi/full/10.1021/ci100384d">paper</a> would be very much appreciated. Depiction courtesy of the <a href="http://ggasoftware.com/opensource/indigo">Indigo Toolkit</a></p>
+  <p><span id="last-update">Updated 19/05/16: StdInChI is now returned below, StdInChI can now be requested by URL in the same way as other formats.</span><br/>If you have found OPSIN useful in your work citing our <a href="http://pubs.acs.org/doi/full/10.1021/ci100384d">paper</a> would be very much appreciated. Depiction courtesy of the <a href="http://lifescience.opensource.epam.com/indigo/">Indigo Toolkit</a></p>
   <div id="opsininstructions">
     <p>Enter a chemical name into the box and then click submit.<br />
        The chemical structure described by the name, or why it could not be interpreted, will appear here.</p>
@@ -72,11 +72,11 @@
     <p><img id="depiction" src="" alt="" /></p>
     <h3 id="messagetype"></h3>
     <p id="message"></p>
-    <h3 title="Tautomer specific InChI i.e. The layers in StdInChI but with a &quot;fixed hydrogen&quot; layer included if required">InChI:</h3>
-    <p id="inchi"></p>
-    <h3 title="Hashed form of StdInChI. Multiple structures can have the same key (although this is in practice uncommon)">StdInChIKey:</h3>
+    <h3 title="StdInChI aims to provide a canonical form for a chemical structure that is independent of the input tautomer/resonance form">StdInChI:</h3>
+    <p id="stdinchi"></p>
+    <h3 title="Hashed form of StdInChI. Multiple structures can have the same key (although this in practice occurs extremely rarely)">StdInChIKey:</h3>
     <p id="stdinchikey"></p>
-    <h3>SMILES:</h3>
+    <h3 title="Simplified Molecular Input Line Entry Specification (a machine-readable structure description)">SMILES:</h3>
     <p id="smiles"></p>
     <h3 title="Chemical Markup Language">CML:</h3>
     <pre id="cml"></pre>

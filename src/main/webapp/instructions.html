@@ -41,7 +41,8 @@
   <ul>
     <li>.cml gives CML with 2d coordinates</li>
     <li>.no2d.cml gives CML without 2d coordinates</li>
-    <li>.inchi gives InChI</li>
+    <li>.inchi gives InChI (<b>NOTE:</b> This is tautomer-specific, use StdInChI for a tautomer-independent representation)</li>
+    <li>.stdinchi gives StdInChI</li>
     <li>.stdinchikey gives StdInChIKey</li>
     <li>.png gives a depiction</li>
     <li>.smi gives SMILES</li>
@@ -49,11 +50,12 @@
   </ul>
   <p>For example <a href="opsin/cyclopropane.png">http://opsin.ch.cam.ac.uk/opsin/cyclopropane.png</a> yields a depiction of cyclopropane.</p>
   <h3>By content negotiation:</h3>
-  <p>The web service is RESTful and will respond appropriately to requests with the appropriate MIME type. For your convenience the MIME types expected are:</p>
+  <p>The web service will respond appropriately to requests with the appropriate MIME type. For your convenience the MIME types expected are:</p>
   <ul>
     <li>chemical/x-cml for CML with 2d coordinates</li>
     <li>chemical/x-no2d-cml for CML without 2d coordinates</li>
-    <li>chemical/x-inchi for InChI</li>
+    <li>chemical/x-inchi for InChI (<b>NOTE:</b> This is tautomer-specific, use StdInChI for a tautomer-independent representation)</li>
+    <li>chemical/x-stdinchi for StdInChI</li>
     <li>chemical/x-stdinchikey for StdInChIKey</li>
     <li>image/png for png depiction</li>
     <li>chemical/x-daylight-smiles for SMILES</li>
