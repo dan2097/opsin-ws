@@ -41,7 +41,7 @@ $(document).ready(function() {
 
  if (window.location.hash) {
    var name = window.location.hash.substring(1);
-   $("#chemicalName").val(name);
+   $("#chemicalName").val(decodeURIComponent(name));
    $("#chemicalNameForm").submit();
  }
 });
