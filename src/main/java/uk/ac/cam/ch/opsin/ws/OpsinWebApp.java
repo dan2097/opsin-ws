@@ -17,9 +17,13 @@
 ***************************************************************************/
 package uk.ac.cam.ch.opsin.ws;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 import org.restlet.Application;
 import org.restlet.Restlet;
 import org.restlet.routing.Router;
+import org.restlet.service.CorsService;
 
 /**
  *
@@ -31,6 +35,10 @@ public class OpsinWebApp extends Application {
 
     public OpsinWebApp() {
         this.setStatusService(new OpsinStatusService());
+        CorsService corsService = new CorsService();         
+        corsService.setAllowedOrigins(new HashSet<String>(Arrays.asList("*")));
+        corsService.setAllowedCredentials(true);
+        this.getServices().add(corsService);
     }
     
     @Override
