@@ -26,7 +26,7 @@ $(document).ready(function() {
        }
        $("#cml").text(response.cml);
        $("#stdinchi").text(response.stdinchi);
-       $("#stdinchikey").html("<a href=\"http://www.google.com/search?q="+ response.stdinchikey +"\" target=\"_blank\">" + response.stdinchikey + "</a> (Click to search the internet for this structure)");
+       $("#stdinchikey").html("<a href=\"http://www.google.com/search?q=&quot;"+ response.stdinchikey +"&quot;\" target=\"_blank\">" + response.stdinchikey + "</a> (Click to search the internet for this structure)");
        $("#smiles").text(response.smiles);
      },
      error: function(XMLHttpRequest, textStatus, errorThrown){
