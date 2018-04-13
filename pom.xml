@@ -92,10 +92,6 @@
       <name>Restlet repository</name>
       <url>http://maven.restlet.com</url>
     </repository>
-    <repository>
-      <id>ucc-repo</id>
-      <url>https://maven.ch.cam.ac.uk/m2repo</url>
-    </repository>
   </repositories>
   <properties>
     <opsin.version>3.0-SNAPSHOT</opsin.version>
