@@ -19,6 +19,9 @@ package uk.ac.cam.ch.opsin.ws;
 
 import org.restlet.data.MediaType;
 import org.restlet.data.Preference;
+
+import java.util.List;
+
 import org.restlet.Request;
 import org.restlet.Response;
 import org.restlet.routing.Filter;
@@ -28,47 +31,52 @@ public class ContentFilter extends Filter {
 	@Override
 	protected int beforeHandle(Request request, Response response) {
 		String path = request.getResourceRef().getPath();
+		List<Preference<MediaType>> acceptedMediaTypes = request.getClientInfo().getAcceptedMediaTypes();
 		if (path.endsWith(".no2d.cml")) {
-			request.getClientInfo().getAcceptedMediaTypes().clear();
-			request.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(OpsinResource.TYPE_NO2DCML));
+			acceptedMediaTypes.clear();
+			acceptedMediaTypes.add(new Preference<MediaType>(OpsinResource.TYPE_NO2DCML));
 			request.getResourceRef().setPath(path.substring(0, path.length() - 9));
 		}
 		else if (path.endsWith(".cml")) {
-			request.getClientInfo().getAcceptedMediaTypes().clear();
-			request.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(OpsinResource.TYPE_CML));
+			acceptedMediaTypes.clear();
+			acceptedMediaTypes.add(new Preference<MediaType>(OpsinResource.TYPE_CML));
 			request.getResourceRef().setPath(path.substring(0, path.length() - 4));
 		}
 		else if (path.endsWith(".json")) {
-			request.getClientInfo().getAcceptedMediaTypes().clear();
-			request.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(OpsinResource.TYPE_JSON));
+			acceptedMediaTypes.clear();
+			acceptedMediaTypes.add(new Preference<MediaType>(OpsinResource.TYPE_JSON));
 			request.getResourceRef().setPath(path.substring(0, path.length() - 5));
 		}
 		else if (path.endsWith(".png")) {
-			request.getClientInfo().getAcceptedMediaTypes().clear();
-			request.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(MediaType.IMAGE_PNG));
+			acceptedMediaTypes.clear();
+			acceptedMediaTypes.add(new Preference<MediaType>(MediaType.IMAGE_PNG));
 			request.getResourceRef().setPath(path.substring(0, path.length() - 4));
 		}
 		else if (path.endsWith(".inchi")) {
-			request.getClientInfo().getAcceptedMediaTypes().clear();
-			request.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(OpsinResource.TYPE_INCHI));
+			acceptedMediaTypes.clear();
+			acceptedMediaTypes.add(new Preference<MediaType>(OpsinResource.TYPE_INCHI));
 			request.getResourceRef().setPath(path.substring(0, path.length() - 6));
 		}
 		else if (path.endsWith(".stdinchi")) {
-			request.getClientInfo().getAcceptedMediaTypes().clear();
-			request.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(OpsinResource.TYPE_STDINCHI));
+			acceptedMediaTypes.clear();
+			acceptedMediaTypes.add(new Preference<MediaType>(OpsinResource.TYPE_STDINCHI));
 			request.getResourceRef().setPath(path.substring(0, path.length() - 9));
 		}
 		else if (path.endsWith(".stdinchikey")) {
-			request.getClientInfo().getAcceptedMediaTypes().clear();
-			request.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(OpsinResource.TYPE_STDINCHIKEY));
+			acceptedMediaTypes.clear();
+			acceptedMediaTypes.add(new Preference<MediaType>(OpsinResource.TYPE_STDINCHIKEY));
 			request.getResourceRef().setPath(path.substring(0, path.length() - 12));
 		}
 		else if (path.endsWith(".smi")) {
-			request.getClientInfo().getAcceptedMediaTypes().clear();
-			request.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(OpsinResource.TYPE_SMILES));
+			acceptedMediaTypes.clear();
+			acceptedMediaTypes.add(new Preference<MediaType>(OpsinResource.TYPE_SMILES));
 			request.getResourceRef().setPath(path.substring(0, path.length() - 4));
 		}
-
+		else if (path.endsWith(".svg")) {
+			acceptedMediaTypes.clear();
+			acceptedMediaTypes.add(new Preference<MediaType>(MediaType.IMAGE_SVG));
+			request.getResourceRef().setPath(path.substring(0, path.length() - 4));
+		}
 		return CONTINUE;
 	}
 
