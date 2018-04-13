@@ -39,6 +39,7 @@ public class OpsinResultToDepiction {
 			Indigo indigo = new Indigo();
 			IndigoRenderer renderer = new IndigoRenderer(indigo);
 			indigo.setOption("render-output-format", "png");
+			indigo.setOption("render-background-color", "1, 1, 1");
 			indigo.setOption("render-coloring", true);
 			indigo.setOption("render-stereo-style", "none");
 			indigo.setOption("render-bond-length", "35");
