@@ -30,15 +30,16 @@ public class OpsinResultToDepiction {
 	/**
 	 * Converts an OPSIN result to a byte array representing a PNG. An exception is thrown if indigo fails to initialise
 	 * @param result
+	 * @param imageFormat 
 	 * @return
 	 * @throws IOException
 	 */
-	public static byte[] convertResultToDepiction(OpsinResult result) throws IOException {
+	public static byte[] convertResultToDepiction(OpsinResult result, String imageFormat) throws IOException {
 		String smiles = result.getSmiles();
 		if (smiles != null){
 			Indigo indigo = new Indigo();
 			IndigoRenderer renderer = new IndigoRenderer(indigo);
-			indigo.setOption("render-output-format", "png");
+			indigo.setOption("render-output-format", imageFormat);
 			indigo.setOption("render-background-color", "1, 1, 1");
 			indigo.setOption("render-coloring", true);
 			indigo.setOption("render-stereo-style", "none");

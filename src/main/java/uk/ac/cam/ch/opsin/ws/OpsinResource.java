@@ -18,7 +18,6 @@
 package uk.ac.cam.ch.opsin.ws;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +26,7 @@ import org.json.JSONStringer;
 import org.restlet.data.MediaType;
 import org.restlet.data.Method;
 import org.restlet.data.Status;
-import org.restlet.representation.OutputRepresentation;
+import org.restlet.representation.ByteArrayRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
@@ -88,6 +87,7 @@ public class OpsinResource extends ServerResource {
 		list.add(new Variant(TYPE_STDINCHIKEY));
 		list.add(new Variant(TYPE_NO2DCML));
 		list.add(new Variant(MediaType.IMAGE_PNG));
+		list.add(new Variant(MediaType.IMAGE_SVG));
 		getVariants().addAll(list);
 		getAllowedMethods().add(Method.GET);
 		getAllowedMethods().add(Method.HEAD);
@@ -113,6 +113,9 @@ public class OpsinResource extends ServerResource {
 			}
 			else if (MediaType.IMAGE_PNG.equals(format)) {
 				return getPngRepresentation();
+			}
+			else if (MediaType.IMAGE_SVG.equals(format)) {
+				return getSvgRepresentation();
 			}
 			else if (TYPE_STDINCHI.equals(format)) {
 				return getStdInchiRepresentation();
@@ -262,13 +265,21 @@ public class OpsinResource extends ServerResource {
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
 		}
 	}
+	
+	private Representation getPngRepresentation() {
+		return getImageRepresentation(MediaType.IMAGE_PNG, "png");
+	}
+	
+	private Representation getSvgRepresentation() {
+		return getImageRepresentation(MediaType.IMAGE_SVG, "svg");
+	}
 
-	private Representation getPngRepresentation() throws Exception {
+	private Representation getImageRepresentation(MediaType mediaType, String imageFormat) {
 		OpsinResult opsinResult = n2s.parseChemicalName(name, n2sConfig);
 		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
-			final byte[] pngBytes;
+			final byte[] imageBytes;
 			try{
-				pngBytes = OpsinResultToDepiction.convertResultToDepiction(opsinResult);
+				imageBytes = OpsinResultToDepiction.convertResultToDepiction(opsinResult, imageFormat);
 			}
 			catch (IOException e) {
 				e.printStackTrace();
@@ -277,17 +288,11 @@ public class OpsinResource extends ServerResource {
 			catch (IndigoException e) {
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "Image generation failed!");
 			}
-			if (pngBytes == null) {
+			if (imageBytes == null) {
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "Image generation failed!");
 			} else {
-				return new OutputRepresentation(MediaType.IMAGE_PNG) {
-					@Override
-					public void write(OutputStream outputStream) throws IOException {
-						outputStream.write(pngBytes);
-					}
-				};
+				return new ByteArrayRepresentation(imageBytes, mediaType);
 			}
-
 		}
 		else{
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
