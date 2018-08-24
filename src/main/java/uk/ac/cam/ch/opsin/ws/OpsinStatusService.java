@@ -22,6 +22,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.restlet.data.CharacterSet;
 import org.restlet.data.MediaType;
 import org.restlet.Request;
@@ -58,13 +59,13 @@ public class OpsinStatusService extends StatusService{
 			while(m.find()) {//replace sections enclosed in %..% with the appropriate expression
 				pageHtml.append(errorHtml.substring(position, m.start()));
 				if (m.group().equals("%INPUT%")){
-					pageHtml.append(request.getResourceRef().getRemainingPart());
+					pageHtml.append(StringEscapeUtils.escapeHtml4(request.getResourceRef().getRemainingPart()));
 				}
 				else if (m.group().equals("%ERRORMESSAGE%")){
-					pageHtml.append(status.getDescription());
+					pageHtml.append(StringEscapeUtils.escapeHtml4(status.getDescription()));
 				}
 				else if (m.group().equals("%ERRORCODE%")){
-					pageHtml.append(status.getCode());
+					pageHtml.append(StringEscapeUtils.escapeHtml4(String.valueOf(status.getCode())));
 				}
 				position = m.end();
 			}
