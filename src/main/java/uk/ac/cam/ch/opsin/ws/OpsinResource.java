@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONStringer;
+import org.json.JSONWriter;
 import org.restlet.data.MediaType;
 import org.restlet.data.Method;
 import org.restlet.data.Status;
@@ -41,6 +42,7 @@ import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
 import uk.ac.cam.ch.wwmm.opsin.NameToStructureConfig;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult.OPSIN_RESULT_STATUS;
+import uk.ac.cam.ch.wwmm.opsin.OpsinWarning;
 
 /**
  * 
@@ -233,14 +235,22 @@ public class OpsinResource extends ServerResource {
 			
 			String json = null;
 			try {
-				json = new JSONStringer().object()
+				JSONWriter writer = new JSONStringer().object()
 					.key("cml").value(cml)
 					.key("inchi").value(inchi)
 					.key("stdinchi").value(stdInchi)
 					.key("stdinchikey").value(stdInchiKey)
 					.key("smiles").value(smiles)
 					.key("message").value(opsinResult.getMessage())
-				.endObject().toString();
+					.key("status").value(opsinResult.getStatus().toString());
+				if (!opsinResult.getWarnings().isEmpty()) {
+					writer = writer.key("warnings").array();
+					for (OpsinWarning warning : opsinResult.getWarnings()) {
+						writer.value(warning.getType().toString());
+					}
+					writer = writer.endArray();
+				}
+				json = writer.endObject().toString();
 			} catch (JSONException e) {
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "JSON generation failed!");
 			}
