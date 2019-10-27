@@ -47,7 +47,7 @@
     <li>.png gives a depiction</li>
     <li>.smi gives SMILES</li>
     <li>.svg gives a vector graphic depiction</li>
-    <li>.json gives JSON (keys: cml, inchi, stdinchi, stdinchikey, smiles, message)</li>
+    <li>.json gives JSON (keys: cml, inchi, stdinchi, stdinchikey, smiles, message, status, warnings (when applicable))</li>
   </ul>
   <p>For example <a href="opsin/cyclopropane.png">https://opsin.ch.cam.ac.uk/opsin/cyclopropane.png</a> yields a depiction of cyclopropane.</p>
   <h3>By content negotiation:</h3>
@@ -61,7 +61,7 @@
     <li>image/png for PNG depiction</li>
     <li>image/svg+xml for SVG depiction</li>
     <li>chemical/x-daylight-smiles for SMILES</li>
-    <li>application/json for JSON (keys: cml, inchi, stdinchi, stdinchikey, smiles, message)</li>
+    <li>application/json for JSON (keys: cml, inchi, stdinchi, stdinchikey, smiles, message, status, warnings (when applicable))</li>
   </ul>
   <p>The web service resides at https://opsin.ch.cam.ac.uk/opsin/</p>
   <h2>Specification of non ASCII characters:</h2>
