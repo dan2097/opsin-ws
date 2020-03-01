@@ -3,20 +3,21 @@ $(document).ready(function() {
    document.getElementById("opsininstructions").style.display="none";
    document.getElementById("results").style.display="";
    $("#depiction").attr("src", "");
+   $("#depictionLink").attr("href", "");
    $("#message").text("");
    $("#messagetype").text("");
    $("#cml").text("");
    $("#stdinchi").text("");
    $("#stdinchikey").text("");
    $("#smiles").text("");
-   var chemicalName = $("#chemicalName").val();
+   var chemicalNameUrlEncoded = encodeURIComponent($("#chemicalName").val());
    $.ajax({
      beforeSend: function(req) {
        req.setRequestHeader("Accept", "application/json");
      },
      dataType: "text",
      type: "GET",
-     url: "opsin/" +encodeURIComponent(chemicalName),
+     url: "opsin/" + chemicalNameUrlEncoded,
    cache: false,
      success: function(json){
        response = $.parseJSON(json);
@@ -35,7 +36,9 @@ $(document).ready(function() {
      }
    } );
 
-   $("#depiction").attr("src", "opsin/" +encodeURIComponent(chemicalName) +".png");
+   var depictUrl = "opsin/" + chemicalNameUrlEncoded + ".png";
+   $("#depiction").attr("src", depictUrl);
+   $("#depictionLink").attr("href", depictUrl);
    return false;
  });
 
