@@ -37,6 +37,9 @@
     font-weight: bold;
     color: red;
   }
+  #depiction {
+    max-width:100%
+  }
 </style>
 </head>
 <body class="home">
@@ -66,13 +69,17 @@
       <input type="submit" value="Submit" />
     </fieldset>
   </form>
-  <p><span id="last-update">Updated 2019-07-13: JSON format now has keys for status and warnings. This is available from <a href="https://bitbucket.org/dan2097/opsin/downloads/">BitBucket</a> and Maven central<br/>If you have found OPSIN useful in your work citing our <a href="https://pubs.acs.org/doi/full/10.1021/ci100384d">paper</a> would be very much appreciated. Depiction courtesy of the <a href="https://lifescience.opensource.epam.com/indigo/">Indigo Toolkit</a></p>
+  <p><span id="last-update">Updated 2020-03-01: Large chemical structure now fit in the viewing window and can be clicked to see at full resolution. This is available from <a href="https://bitbucket.org/dan2097/opsin/downloads/">BitBucket</a> and Maven central<br/>If you have found OPSIN useful in your work citing our <a href="https://pubs.acs.org/doi/full/10.1021/ci100384d">paper</a> would be very much appreciated. Depiction courtesy of the <a href="https://lifescience.opensource.epam.com/indigo/">Indigo Toolkit</a></p>
   <div id="opsininstructions">
     <p>Enter a chemical name into the box and then click submit.<br />
        The chemical structure described by the name, or why it could not be interpreted, will appear here.</p>
   </div>
   <div id="results" style="display:none">
-    <p><img id="depiction" src="" alt="" /></p>
+    <p>
+      <a id="depictionLink" href="" target="_blank">
+        <img id="depiction" src="" alt="" />
+      </a>
+    </p>
     <h3 id="messagetype"></h3>
     <p id="message"></p>
     <h3 title="StdInChI aims to provide a canonical form for a chemical structure that is independent of the input tautomer/resonance form">StdInChI:</h3>
@@ -108,7 +115,7 @@
 <!-- end of #content -->
 
 <ul id="site-info">
-  <li class="copy">&copy; 2009-2019 Daniel Lowe, Centre for Molecular Informatics</li>
+  <li class="copy">&copy; 2009-2020 Daniel Lowe, Centre for Molecular Informatics</li>
   <li class="link last"><a href="https://www.cam.ac.uk/about-this-site/privacy-policy">Privacy</a></li>
   <li class="link"><a href="https://www.cam.ac.uk/about-this-site/accessibility">Accessibility</a></li>
 </ul>
