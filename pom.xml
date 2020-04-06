@@ -106,7 +106,7 @@
   </repositories>
   <properties>
     <opsin.version>3.0-SNAPSHOT</opsin.version>
-    <restlet.version>2.3.7</restlet.version>
+    <restlet.version>2.3.12</restlet.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
