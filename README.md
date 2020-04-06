@@ -15,3 +15,5 @@ To run on a Java Web server e.g. [Apache Tomcat](https://tomcat.apache.org/), fr
 mvn package
 ```
 This will create opsin.war in the target folder, which can (in the case of Tomcat) then be copied into the webapps folder of the Java Web Server to deploy it
+
+[![Build Status](https://travis-ci.com/dan2097/opsin-ws.svg?branch=master)](https://travis-ci.com/dan2097/opsin-ws)
