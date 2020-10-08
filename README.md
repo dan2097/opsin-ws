@@ -10,6 +10,11 @@ To run directly as a standalone web-service, from a command-line in the opsin-ws
 mvn jetty:run
 ```
 
+Then browse to 127.0.0.1:8989
+```
+firefox 127.0.0.1:8989
+```
+
 To run on a Java Web server e.g. [Apache Tomcat](https://tomcat.apache.org/), from a command-line in the opsin-ws folder run:
 ```
 mvn package
