@@ -148,12 +148,12 @@
     <dependency>
       <groupId>com.epam.indigo</groupId>
       <artifactId>indigo</artifactId>
-      <version>1.4.0-beta.r0</version>
+      <version>1.4.3</version>
     </dependency>
     <dependency>
       <groupId>com.epam.indigo</groupId>
       <artifactId>indigo-renderer</artifactId>
-      <version>1.4.0-beta.r0</version>
+      <version>1.4.3</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
