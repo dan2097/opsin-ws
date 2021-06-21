@@ -21,4 +21,4 @@ mvn package
 ```
 This will create opsin.war in the target folder, which can (in the case of Tomcat) then be copied into the webapps folder of the Java Web Server to deploy it
 
-[![Build Status](https://travis-ci.com/dan2097/opsin-ws.svg?branch=master)](https://travis-ci.com/dan2097/opsin-ws)
+![Build Status](https://github.com/dan2097/opsin-ws/workflows/Java%20CI%20with%20Maven/badge.svg)
