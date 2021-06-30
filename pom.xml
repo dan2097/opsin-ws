@@ -34,14 +34,14 @@
       </resource>
     </resources>
     <plugins>
-      <!-- Use Java 1.7 -->
+      <!-- Use Java 1.8 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
       <!-- See JDK-8212233 -->
@@ -50,13 +50,13 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>3.2.0</version>
         <configuration>
-          <source>7</source>
+          <source>8</source>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.19.1</version>
+        <version>2.22.2</version>
       </plugin>
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
@@ -94,6 +94,11 @@
           <stopPort>5555</stopPort>
           <contextPath>/</contextPath>
         </configuration>
+     </plugin>
+     <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.3.1</version>
       </plugin>
     </plugins>
   </build>
@@ -101,12 +106,12 @@
     <repository>
       <id>maven-restlet</id>
       <name>Restlet repository</name>
-      <url>http://maven.restlet.com</url>
+      <url>https://maven.restlet.com</url>
     </repository>
   </repositories>
   <properties>
     <opsin.version>2.5.0</opsin.version>
-    <restlet.version>2.3.12</restlet.version>
+    <restlet.version>2.4.3</restlet.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
@@ -138,27 +143,27 @@
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.6</version>
+      <version>2.10.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.8.1</version>
+      <version>3.12.0</version>
     </dependency>
     <dependency>
       <groupId>com.epam.indigo</groupId>
       <artifactId>indigo</artifactId>
-      <version>1.4.0-beta.r0</version>
+      <version>1.4.3</version>
     </dependency>
     <dependency>
       <groupId>com.epam.indigo</groupId>
       <artifactId>indigo-renderer</artifactId>
-      <version>1.4.0-beta.r0</version>
+      <version>1.4.3</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13.1</version>
+      <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
