@@ -1,4 +1,6 @@
-# OPSIN WS
+# OPSIN Web Service
+
+__License: [MIT License](https://opensource.org/licenses/MIT)__
 
 ### Usage
 * Checkout the repository
@@ -10,10 +12,7 @@ To run directly as a standalone web-service, from a command-line in the opsin-ws
 mvn jetty:run
 ```
 
-Then browse to 127.0.0.1:8989
-```
-firefox 127.0.0.1:8989
-```
+Then go to `127.0.0.1:8989` from your web browser
 
 To run on a Java Web server e.g. [Apache Tomcat](https://tomcat.apache.org/), from a command-line in the opsin-ws folder run:
 ```

@@ -8,8 +8,8 @@
   <name>OPSIN Web Service</name>
   <licenses>
     <license>
-      <name>GNU General Public License, version 3</name>
-      <url>http://www.opensource.org/licenses/gpl-3.0</url>
+      <name>MIT License</name>
+      <url>https://opensource.org/licenses/MIT</url>
     </license>
   </licenses>
   <scm>
