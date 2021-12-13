@@ -110,7 +110,7 @@
     </repository>
   </repositories>
   <properties>
-    <opsin.version>2.5.0</opsin.version>
+    <opsin.version>3.0-SNAPSHOT</opsin.version>
     <restlet.version>2.4.3</restlet.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

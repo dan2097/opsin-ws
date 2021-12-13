@@ -19,7 +19,7 @@ import org.restlet.resource.ServerResource;
 
 import com.epam.indigo.IndigoException;
 
-import net.sf.jniinchi.JniInchiWrapper;
+import io.github.dan2097.jnainchi.JnaInchi;
 import uk.ac.cam.ch.wwmm.opsin.NameToInchi;
 import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
 import uk.ac.cam.ch.wwmm.opsin.NameToStructureConfig;
@@ -210,7 +210,7 @@ public class OpsinResource extends ServerResource {
 			String stdInchiKey = null;
 			if (stdInchi != null){
 				try {
-					stdInchiKey = JniInchiWrapper.getInchiKey(stdInchi).getKey();
+					stdInchiKey = JnaInchi.inchiToInchiKey(stdInchi).getInchiKey();
 				} catch (Exception e) {}
 			}
 			String smiles = opsinResult.getSmiles();
