@@ -59,42 +59,15 @@
         <version>2.22.2</version>
       </plugin>
       <plugin>
-        <groupId>org.mortbay.jetty</groupId>
-        <artifactId>maven-jetty-plugin</artifactId>
-        <version>6.1.26</version>
-        <executions>
-           <execution>
-              <id>start-jetty</id>
-              <phase>pre-integration-test</phase>
-              <goals>
-                 <goal>run</goal>
-              </goals>
-              <configuration>
-                 <scanIntervalSeconds>0</scanIntervalSeconds>
-                 <daemon>true</daemon>
-              </configuration>
-           </execution>
-           <execution>
-              <id>stop-jetty</id>
-              <phase>post-integration-test</phase>
-              <goals>
-                 <goal>stop</goal>
-              </goals>
-           </execution>
-        </executions>
-        <configuration>
-          <scanIntervalSeconds>5</scanIntervalSeconds>
-          <connectors>
-            <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-              <port>8989</port>
-              <maxIdleTime>60000</maxIdleTime>
-            </connector>
-          </connectors>
-          <stopKey>opsin-jetty-key</stopKey>
-          <stopPort>5555</stopPort>
-          <contextPath>/</contextPath>
-        </configuration>
-     </plugin>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+	<version>10.0.7</version>
+	<configuration>
+          <httpConnector>
+            <port>8989</port>
+          </httpConnector>
+         </configuration>
+      </plugin>
      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
