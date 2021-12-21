@@ -1,11 +1,13 @@
 package uk.ac.cam.ch.opsin.ws;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.restlet.data.CharacterSet;
 import org.restlet.data.MediaType;
 import org.restlet.Request;
@@ -25,8 +27,8 @@ public class OpsinStatusService extends StatusService{
 	private static Pattern matchRegexReplacement;
 	
 	static {
-		try {
-			errorHtml = IOUtils.toString(OpsinStatusService.class.getResourceAsStream("/error.html"));
+		try (InputStream is = OpsinStatusService.class.getResourceAsStream("/error.html")){
+			errorHtml = IOUtils.toString(is, StandardCharsets.UTF_8);
 		} catch (IOException e) {
 			errorHtml = null;
 		}
