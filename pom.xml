@@ -99,7 +99,7 @@
       <version>${opsin.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.restlet.jse</groupId>
+      <groupId>org.restlet.jee</groupId>
       <artifactId>org.restlet</artifactId>
       <version>${restlet.version}</version>
     </dependency>
@@ -109,7 +109,7 @@
       <version>${restlet.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.restlet.jse</groupId>
+      <groupId>org.restlet.jee</groupId>
       <artifactId>org.restlet.ext.json</artifactId>
       <version>${restlet.version}</version>
     </dependency>
