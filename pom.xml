@@ -61,12 +61,12 @@
       <plugin>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
-          <version>10.0.9</version>
-          <configuration>
+        <version>9.4.48.v20220622</version>
+        <configuration>
           <httpConnector>
             <port>8989</port>
           </httpConnector>
-         </configuration>
+        </configuration>
       </plugin>
      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
