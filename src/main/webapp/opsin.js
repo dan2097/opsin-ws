@@ -32,7 +32,7 @@ $(document).ready(function() {
      },
      error: function(XMLHttpRequest, textStatus, errorThrown){
        $("#messagetype").text("Error:");
-       $("#message").text(extractResponseText(XMLHttpRequest.responseText));
+       $("#message").html(extractResponseHtml(XMLHttpRequest.responseText));
      }
    } );
 
@@ -51,12 +51,12 @@ $(document).ready(function() {
 
 var re = new RegExp('<h3>(.*)</h3>');
 
-function extractResponseText(responseHTML) {
-  var matcher = re.exec(responseHTML);
-  if (matcher !=null){
+function extractResponseHtml(responseHtml) {
+  var matcher = re.exec(responseHtml);
+  if (matcher != null) {
     return matcher[1];
   }
-  else{
+  else {
     return "Problem retrieving server error message! Is this server running?";
   }
 }
