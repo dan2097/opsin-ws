@@ -53,8 +53,7 @@ public class OpsinResource extends ServerResource {
 		try {
 			n2s = NameToStructure.getInstance();
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException("OPSIN failed to initialise!");
+			throw new RuntimeException("OPSIN failed to initialise!", e);
 		}
 		n2sConfig.setDetailedFailureAnalysis(true);
 		n2sConfig.setAllowRadicals(true);
