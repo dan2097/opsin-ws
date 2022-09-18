@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONException;
 import org.json.JSONStringer;
 import org.json.JSONWriter;
 import org.restlet.data.MediaType;
@@ -203,7 +202,11 @@ public class OpsinResource extends ServerResource {
 
 	private Representation getJsonRepresentation() {
 		OpsinResult opsinResult = n2s.parseChemicalName(name, n2sConfig);
-		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
+		OPSIN_RESULT_STATUS status = opsinResult.getStatus();
+		JSONWriter writer = new JSONStringer().object();
+		writer.key("status").value(opsinResult.getStatus().toString());
+		writer.key("message").value(opsinResult.getMessage());
+		if (!status.equals(OPSIN_RESULT_STATUS.FAILURE)){
 			String inchi = NameToInchi.convertResultToInChI(opsinResult);
 			String stdInchi = NameToInchi.convertResultToStdInChI(opsinResult);
 			String stdInchiKey = null;
@@ -214,33 +217,28 @@ public class OpsinResource extends ServerResource {
 			}
 			String smiles = opsinResult.getSmiles();
 			String cml = opsinResult.getPrettyPrintedCml();
-			
-			String json = null;
-			try {
-				JSONWriter writer = new JSONStringer().object()
-					.key("cml").value(cml)
-					.key("inchi").value(inchi)
-					.key("stdinchi").value(stdInchi)
-					.key("stdinchikey").value(stdInchiKey)
-					.key("smiles").value(smiles)
-					.key("message").value(opsinResult.getMessage())
-					.key("status").value(opsinResult.getStatus().toString());
-				if (!opsinResult.getWarnings().isEmpty()) {
-					writer = writer.key("warnings").array();
-					for (OpsinWarning warning : opsinResult.getWarnings()) {
-						writer.value(warning.getType().toString());
-					}
-					writer = writer.endArray();
+
+			writer.key("cml").value(cml)
+				.key("inchi").value(inchi)
+				.key("stdinchi").value(stdInchi)
+				.key("stdinchikey").value(stdInchiKey)
+				.key("smiles").value(smiles);
+				
+			List<OpsinWarning> warnings = opsinResult.getWarnings();
+			if (!warnings.isEmpty()) {
+				writer.key("warnings").array();
+				for (OpsinWarning warning : warnings) {
+					writer.value(warning.getType().toString());
 				}
-				json = writer.endObject().toString();
-			} catch (JSONException e) {
-				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "JSON generation failed!");
+				writer.endArray();
 			}
-			return new StringRepresentation(json, TYPE_JSON);
 		}
-		else{
-			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, opsinResult.getMessage());
+		else {
+			setStatus(Status.CLIENT_ERROR_NOT_FOUND);
 		}
+		
+		String json = writer.endObject().toString();
+		return new StringRepresentation(json, TYPE_JSON);
 	}
 
 	private Representation getSmilesRepresentation() throws Exception {

@@ -30,9 +30,10 @@ $(document).ready(function() {
        $("#stdinchikey").html("<a href=\"http://www.google.com/search?q=&quot;"+ response.stdinchikey +"&quot;\" target=\"_blank\">" + response.stdinchikey + "</a> (Click to search the internet for this structure)");
        $("#smiles").text(response.smiles);
      },
-     error: function(XMLHttpRequest, textStatus, errorThrown){
+     error: function(xhr, textStatus, errorThrown){
+       let errResp = JSON.parse(xhr.responseText)
        $("#messagetype").text("Error:");
-       $("#message").html(extractResponseHtml(XMLHttpRequest.responseText));
+       $("#message").text(errResp.message);
      }
    } );
 
@@ -49,14 +50,3 @@ $(document).ready(function() {
  }
 });
 
-var re = new RegExp('<h3>(.*)</h3>');
-
-function extractResponseHtml(responseHtml) {
-  var matcher = re.exec(responseHtml);
-  if (matcher != null) {
-    return matcher[1];
-  }
-  else {
-    return "Problem retrieving server error message! Is this server running?";
-  }
-}
