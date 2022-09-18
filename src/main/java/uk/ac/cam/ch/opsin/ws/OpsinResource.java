@@ -123,7 +123,7 @@ public class OpsinResource extends ServerResource {
 		OpsinResult opsinResult = n2s.parseChemicalName(name, n2sConfig);
 		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
 			try{
-				String cml = OpsinResultToCMLWithCoords.convertResultToCMLWithCoords(opsinResult);
+				String cml = OpsinResultToCmlWithCoords.convertResultToCmlWithCoords(opsinResult);
 				return new StringRepresentation(cml, TYPE_CML);
 			}
 			catch (Exception e) {

@@ -21,7 +21,7 @@ import com.epam.indigo.IndigoObject;
 
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
 
-public class OpsinResultToCMLWithCoords {
+public class OpsinResultToCmlWithCoords {
 	
 	private static final XMLInputFactory inputFactory = new WstxInputFactory();
 	private static final XMLOutputFactory outputFactory = new WstxOutputFactory();
@@ -35,7 +35,7 @@ public class OpsinResultToCMLWithCoords {
 	 * @throws IOException
 	 * @throws XMLStreamException 
 	 */
-	public static String convertResultToCMLWithCoords(OpsinResult result) throws IOException, XMLStreamException {
+	public static String convertResultToCmlWithCoords(OpsinResult result) throws IOException, XMLStreamException {
 		String cml = result.getPrettyPrintedCml();
 		if (cml != null){
 			Indigo indigo = new Indigo();
