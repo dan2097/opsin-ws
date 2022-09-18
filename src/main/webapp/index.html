@@ -1,17 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <!-- remove next line if your web server adds charset-->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="global/style/layout.css" type="text/css" media="all" />
-<link rel="stylesheet" href="global/style/print.css" type="text/css" media="print" />
 <link rel="Shortcut Icon" href="https://www.ch.cam.ac.uk/newsites/all/themes/ucam/favicon.ico" />
+<link rel="stylesheet" href="global/style/print.css" type="text/css" media="print" />
 <!-- change title and metadata for each page here -->
 <link rel="stylesheet" href="opsin.css" type="text/css" media="all" />
 <title>OPSIN: Open Parser for Systematic IUPAC Nomenclature</title>
-<script src="jquery-1.12.4.min.js" type="text/javascript"></script>
-<script src="opsin.js?v=20220919" type="text/javascript"></script>
-<style type="text/css" media="all">
+<script src="jquery-1.12.4.min.js"></script>
+<script src="opsin.js?v=20220919"></script>
+<style media="all">
   div#content-primary img#depiction {
     display: inline;
     float: none;
@@ -50,7 +50,7 @@
   <h1>OPSIN: Open Parser for Systematic IUPAC nomenclature</h1>
 </div>
 
-<div id="container"> <a name="skip-content" id="skip-content"></a>
+<div id="container"> <a id="skip-content"></a>
 <div id="content">
 
 <div id="content-primary">
@@ -61,7 +61,7 @@
 </ul>
 
 <div style="min-height: 360px">
-  <form action="" id="chemicalNameForm">
+  <form id="chemicalNameForm">
     <fieldset>
       <input type="text" id="chemicalName" size="100" value="2,4,6-trinitrotoluene" />
       <input type="submit" value="Submit" />
@@ -75,7 +75,7 @@
   <div id="results" style="display:none">
     <p>
       <a id="depictionLink" href="" target="_blank">
-        <img id="depiction" src="" alt="" />
+        <img id="depiction" src="data:," alt="" />
       </a>
     </p>
     <h3 id="messagetype"></h3>

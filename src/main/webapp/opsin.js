@@ -10,7 +10,7 @@ $(document).ready(function() {
    $("#stdinchi").text("");
    $("#stdinchikey").text("");
    $("#smiles").text("");
-   var chemicalNameUrlEncoded = encodeURIComponent($("#chemicalName").val());
+   let chemicalNameUrlEncoded = encodeURIComponent($("#chemicalName").val());
    $.ajax({
      beforeSend: function(req) {
        req.setRequestHeader("Accept", "application/json");
@@ -37,14 +37,14 @@ $(document).ready(function() {
      }
    } );
 
-   var depictUrl = "opsin/" + chemicalNameUrlEncoded + ".png";
+   let depictUrl = "opsin/" + chemicalNameUrlEncoded + ".png";
    $("#depiction").attr("src", depictUrl);
    $("#depictionLink").attr("href", depictUrl);
    return false;
  });
 
  if (window.location.hash) {
-   var name = window.location.hash.substring(1);
+   let name = window.location.hash.substring(1);
    $("#chemicalName").val(decodeURIComponent(name));
    $("#chemicalNameForm").submit();
  }
