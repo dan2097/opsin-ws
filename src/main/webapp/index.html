@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="opsin.css" type="text/css" media="all" />
 <title>OPSIN: Open Parser for Systematic IUPAC Nomenclature</title>
 <script src="jquery-1.12.4.min.js"></script>
-<script src="opsin.js?v=20220919"></script>
+<script src="opsin.js?v=20221102"></script>
 <style media="all">
   div#content-primary img#depiction {
     display: inline;
@@ -37,6 +37,15 @@
   }
   #depiction {
     max-width:100%
+  }
+  .copyBtn {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin-left: 10px;
   }
 </style>
 </head>
@@ -93,7 +102,9 @@
       <span id="smiles"></span><button class="copyBtn" onclick="copyText(this, 'smiles')">Copy</button>
     </p>
     <h3 title="Chemical Markup Language">CML:</h3>
-    <pre id="cml"></pre>
+    <p>
+      <pre id="cml"></pre><button class="copyBtn" onclick="copyText(this, 'cml')">Copy</button>
+    </p>
   </div>
 </div>
 
