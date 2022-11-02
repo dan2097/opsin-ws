@@ -7,3 +7,12 @@
   div#content-secondary {
     width: 15%;
   }
+  .copyBtn {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin-left: 10px;
+  }

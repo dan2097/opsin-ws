@@ -27,7 +27,7 @@ $(document).ready(function() {
        }
        $("#cml").text(response.cml);
        $("#stdinchi").text(response.stdinchi);
-       $("#stdinchikey").html("<a href=\"http://www.google.com/search?q=&quot;"+ response.stdinchikey +"&quot;\" target=\"_blank\">" + response.stdinchikey + "</a> (Click to search the internet for this structure)");
+       $("#stdinchikey").html("<a href=\"http://www.google.com/search?q=&quot;"+ response.stdinchikey +"&quot;\" target=\"_blank\">" + response.stdinchikey + "</a>");
        $("#smiles").text(response.smiles);
      },
      error: function(xhr, textStatus, errorThrown){
@@ -50,3 +50,23 @@ $(document).ready(function() {
  }
 });
 
+function copyText(btn, elName){
+  if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+    let r = document.createRange();
+    r.selectNode(document.getElementById(elName));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(r);
+    try {
+      document.execCommand("copy");
+      btn.textContent = "Copied";
+      setInterval(function(){btn.textContent = "Copy"}, 5000);
+    }
+    catch (ex) {
+      alert("Copy failed");
+    }
+    window.getSelection().removeAllRanges();
+  }
+  else {
+     alert("Copy not supported by browser");
+  }
+}
