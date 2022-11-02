@@ -11,6 +11,12 @@ $(document).ready(function() {
    $("#stdinchikey").text("");
    $("#smiles").text("");
    let chemicalNameUrlEncoded = encodeURIComponent($("#chemicalName").val());
+
+   let structureOutputEls = document.getElementsByClassName("structureOutput");
+   for(let i = 0, len = structureOutputEls.length; i < len; i++) {
+        structureOutputEls[i].style.display="none";
+   }
+
    $.ajax({
      beforeSend: function(req) {
        req.setRequestHeader("Accept", "application/json");
@@ -29,6 +35,9 @@ $(document).ready(function() {
        $("#stdinchi").text(response.stdinchi);
        $("#stdinchikey").html("<a href=\"http://www.google.com/search?q=&quot;"+ response.stdinchikey +"&quot;\" target=\"_blank\">" + response.stdinchikey + "</a>");
        $("#smiles").text(response.smiles);
+       for(let i = 0, len = structureOutputEls.length; i < len; i++) {
+         structureOutputEls[i].style.display="";
+       }
      },
      error: function(xhr, textStatus, errorThrown){
        let errResp = JSON.parse(xhr.responseText)

@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="opsin.css" type="text/css" media="all" />
 <title>OPSIN: Open Parser for Systematic IUPAC Nomenclature</title>
 <script src="jquery-1.12.4.min.js"></script>
-<script src="opsin.js?v=20221102"></script>
+<script src="opsin.js?v=20221102a"></script>
 <style media="all">
   div#content-primary img#depiction {
     display: inline;
@@ -82,29 +82,31 @@
        The chemical structure described by the name, or why it could not be interpreted, will appear here.</p>
   </div>
   <div id="results" style="display:none">
-    <p>
+    <p class="structureOutput">
       <a id="depictionLink" href="" target="_blank">
         <img id="depiction" src="data:," alt="" />
       </a>
     </p>
     <h3 id="messagetype"></h3>
     <p id="message"></p>
-    <h3 title="StdInChI aims to provide a canonical form for a chemical structure that is independent of the input tautomer/resonance form">StdInChI:</h3>
-    <p>
-      <span id="stdinchi"></span><button class="copyBtn" onclick="copyText(this, 'stdinchi')">Copy</button>
-    </p>
-    <h3 title="Hashed form of StdInChI. Multiple structures can have the same key (although this in practice occurs extremely rarely)">StdInChIKey:</h3>
-    <p>
-      <span id="stdinchikey"></span> (Click to search the internet for this structure)<button class="copyBtn" onclick="copyText(this, 'stdinchikey')">Copy</button>
-    </p>
-    <h3 title="Simplified Molecular Input Line Entry Specification (a machine-readable structure description)">SMILES:</h3>
-    <p>
-      <span id="smiles"></span><button class="copyBtn" onclick="copyText(this, 'smiles')">Copy</button>
-    </p>
-    <h3 title="Chemical Markup Language">CML:</h3>
-    <p>
-      <pre id="cml"></pre><button class="copyBtn" onclick="copyText(this, 'cml')">Copy</button>
-    </p>
+    <div class="structureOutput">
+      <h3 title="StdInChI aims to provide a canonical form for a chemical structure that is independent of the input tautomer/resonance form">StdInChI:</h3>
+      <p>
+        <span id="stdinchi"></span><button class="copyBtn" onclick="copyText(this, 'stdinchi')">Copy</button>
+      </p>
+      <h3 title="Hashed form of StdInChI. Multiple structures can have the same key (although this in practice occurs extremely rarely)">StdInChIKey:</h3>
+      <p>
+        <span id="stdinchikey"></span> (Click to search the internet for this structure)<button class="copyBtn" onclick="copyText(this, 'stdinchikey')">Copy</button>
+      </p>
+      <h3 title="Simplified Molecular Input Line Entry Specification (a machine-readable structure description)">SMILES:</h3>
+      <p>
+        <span id="smiles"></span><button class="copyBtn" onclick="copyText(this, 'smiles')">Copy</button>
+      </p>
+      <h3 title="Chemical Markup Language">CML:</h3>
+      <p>
+        <pre id="cml"></pre><button class="copyBtn" onclick="copyText(this, 'cml')">Copy</button>
+      </p>
+    </div>
   </div>
 </div>
 
