@@ -83,7 +83,7 @@
     </repository>
   </repositories>
   <properties>
-    <opsin.version>2.7.0</opsin.version>
+    <opsin.version>2.8.0</opsin.version>
     <restlet.version>2.4.3</restlet.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
