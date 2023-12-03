@@ -10,7 +10,7 @@ $(document).ready(function() {
    $("#stdinchi").text("");
    $("#stdinchikey").text("");
    $("#smiles").text("");
-   let chemicalNameUrlEncoded = encodeURIComponent($("#chemicalName").val());
+   let chemicalNameUrlEncoded = encodeURIComponent($("#chemicalName").val().replace(/\//g, ""));
 
    let structureOutputEls = document.getElementsByClassName("structureOutput");
    for(let i = 0, len = structureOutputEls.length; i < len; i++) {
