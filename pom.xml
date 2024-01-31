@@ -61,7 +61,7 @@
       <plugin>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
-        <version>9.4.51.v20230217</version>
+        <version>9.4.53.v20231009</version>
         <configuration>
           <httpConnector>
             <port>8989</port>
@@ -116,7 +116,7 @@
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.15.0</version>
+      <version>2.15.1</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -126,12 +126,12 @@
     <dependency>
       <groupId>com.epam.indigo</groupId>
       <artifactId>indigo</artifactId>
-      <version>1.14.0</version>
+      <version>1.16.0</version>
     </dependency>
     <dependency>
       <groupId>com.epam.indigo</groupId>
       <artifactId>indigo-renderer</artifactId>
-      <version>1.14.0</version>
+      <version>1.16.0</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>

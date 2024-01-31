@@ -13,7 +13,7 @@ jobs:
         # test against latest update of each major Java version:
         java: [ 8, 11, 17, 21 ]
         # test against major operating systems
-        os: [ubuntu-20.04, windows-latest, macos-latest]
+        os: [ubuntu-22.04, windows-latest, macos-latest]
     name: Java ${{ matrix.java }} on ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
