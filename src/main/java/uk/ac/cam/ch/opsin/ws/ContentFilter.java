@@ -2,6 +2,7 @@ package uk.ac.cam.ch.opsin.ws;
 
 import org.restlet.data.MediaType;
 import org.restlet.data.Preference;
+import org.restlet.data.Reference;
 
 import java.util.List;
 
@@ -14,6 +15,11 @@ public class ContentFilter extends Filter {
 	@Override
 	protected int beforeHandle(Request request, Response response) {
 		String path = request.getResourceRef().getPath();
+        if (path.equals("/opsin") || path.equals("/opsin/")) {
+            response.redirectSeeOther(new Reference(request.getResourceRef().getBaseRef(), "/instructions.html"));
+            return STOP;
+        }
+
 		List<Preference<MediaType>> acceptedMediaTypes = request.getClientInfo().getAcceptedMediaTypes();
 		if (path.endsWith(".no2d.cml")) {
 			acceptedMediaTypes.clear();
