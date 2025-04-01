@@ -124,12 +124,12 @@ public class OpsinResource extends ServerResource {
 		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
 			try{
 				String cml = OpsinResultToCmlWithCoords.convertResultToCmlWithCoords(opsinResult);
-				return new StringRepresentation(cml, TYPE_CML);
+				return new StringRepresentation(cml, MediaType.APPLICATION_XML);
 			}
 			catch (Exception e) {
 				String cml = opsinResult.getPrettyPrintedCml();
 				if (cml != null) {
-					return new StringRepresentation(cml, TYPE_CML);
+					return new StringRepresentation(cml, MediaType.APPLICATION_XML);
 				} else {
 					throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "CML generation failed!");
 				}
@@ -145,7 +145,7 @@ public class OpsinResource extends ServerResource {
 		if (!opsinResult.getStatus().equals(OPSIN_RESULT_STATUS.FAILURE)){
 			String cml = opsinResult.getPrettyPrintedCml();
 			if (cml != null) {
-				return new StringRepresentation(cml, TYPE_CML);
+				return new StringRepresentation(cml, MediaType.APPLICATION_XML);
 			} else {
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "CML generation failed!");
 			}
@@ -162,7 +162,7 @@ public class OpsinResource extends ServerResource {
 			if (inchi == null) {
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "InChI generation failed!");
 			} else {
-				return new StringRepresentation(inchi, TYPE_INCHI);
+				return new StringRepresentation(inchi);
 			}
 		}
 		else{
@@ -177,7 +177,7 @@ public class OpsinResource extends ServerResource {
 			if (stdInchi == null) {
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "StdInChI generation failed!");
 			} else {
-				return new StringRepresentation(stdInchi, TYPE_STDINCHIKEY);
+				return new StringRepresentation(stdInchi);
 			}
 		}
 		else{
@@ -192,7 +192,7 @@ public class OpsinResource extends ServerResource {
 			if (stdInchiKey == null) {
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "StdInChIKey generation failed!");
 			} else {
-				return new StringRepresentation(stdInchiKey, TYPE_STDINCHIKEY);
+				return new StringRepresentation(stdInchiKey);
 			}
 		}
 		else{
@@ -248,7 +248,7 @@ public class OpsinResource extends ServerResource {
 			if (smiles == null) {
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, "SMILES generation failed!");
 			} else {
-				return new StringRepresentation(smiles, TYPE_SMILES);
+				return new StringRepresentation(smiles);
 			}
 		}
 		else{
