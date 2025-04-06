@@ -216,7 +216,7 @@ public class OpsinResource extends ServerResource {
 				} catch (Exception e) {}
 			}
 			String smiles = opsinResult.getSmiles();
-			String cml = opsinResult.getPrettyPrintedCml();
+			String cml = opsinResult.getPrettyPrintedCml().trim();//Trim is a workaround for a bug in OPSIN-2.8.0
 
 			writer.key("cml").value(cml)
 				.key("inchi").value(inchi)
