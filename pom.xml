@@ -75,16 +75,9 @@
       </plugin>
     </plugins>
   </build>
-  <repositories>
-    <repository>
-      <id>maven-restlet</id>
-      <name>Restlet repository</name>
-      <url>https://maven.restlet.talend.com</url>
-    </repository>
-  </repositories>
   <properties>
     <opsin.version>2.9.0</opsin.version>
-    <restlet.version>2.4.3</restlet.version>
+    <restlet.version>2.5.2</restlet.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
@@ -99,17 +92,17 @@
       <version>${opsin.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.restlet.jee</groupId>
+      <groupId>org.restlet</groupId>
       <artifactId>org.restlet</artifactId>
       <version>${restlet.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.restlet.jee</groupId>
+      <groupId>org.restlet</groupId>
       <artifactId>org.restlet.ext.servlet</artifactId>
       <version>${restlet.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.restlet.jee</groupId>
+      <groupId>org.restlet</groupId>
       <artifactId>org.restlet.ext.json</artifactId>
       <version>${restlet.version}</version>
     </dependency>

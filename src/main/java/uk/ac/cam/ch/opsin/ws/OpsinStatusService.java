@@ -14,7 +14,7 @@ public class OpsinStatusService extends StatusService {
 	}
 
 	@Override
-	public Representation getRepresentation(Status status, Request request, Response response) {
+	public Representation toRepresentation(Status status, Request request, Response response) {
 		if (status.isError()) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("OPSIN has failed to process the following request:\n");

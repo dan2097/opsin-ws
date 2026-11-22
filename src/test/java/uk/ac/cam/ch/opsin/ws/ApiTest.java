@@ -25,7 +25,7 @@ import org.restlet.ext.json.JsonRepresentation;
  * @author ojd20
  * @author dl387
  */
-public class APITest {
+public class ApiTest {
 
    private static MediaType TYPE_INCHI = new MediaType("chemical/x-inchi");
    private static Component component;
@@ -62,6 +62,7 @@ public class APITest {
       req.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(TYPE_INCHI));
       Response res = client.handle(req);
       Assert.assertEquals(Status.CLIENT_ERROR_NOT_FOUND, res.getStatus());
+      Assert.assertTrue(res.getEntity().getText().contains("OPSIN has failed to process the following request:"));
    }
    
    @Test
